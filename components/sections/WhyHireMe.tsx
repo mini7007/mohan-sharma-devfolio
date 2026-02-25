@@ -1,4 +1,5 @@
 import SectionReveal from "@/components/ui/SectionReveal";
+import { motion } from "framer-motion";
 
 const cards = [
   {
@@ -9,6 +10,8 @@ const cards = [
     iconBg: "rgba(6,182,212,0.12)",
     gradStart: "#3b82f6",
     gradEnd: "#06b6d4",
+    stats: "98/100",
+    label: "Lighthouse Score",
   },
   {
     icon: "🏗️",
@@ -18,6 +21,8 @@ const cards = [
     iconBg: "rgba(139,92,246,0.12)",
     gradStart: "#8b5cf6",
     gradEnd: "#3b82f6",
+    stats: "50+",
+    label: "Projects Shipped",
   },
   {
     icon: "🤖",
@@ -27,6 +32,8 @@ const cards = [
     iconBg: "rgba(236,72,153,0.12)",
     gradStart: "#ec4899",
     gradEnd: "#8b5cf6",
+    stats: "2x",
+    label: "Productivity Multiplier",
   },
 ];
 
@@ -43,41 +50,79 @@ export default function WhyHireMe() {
 
         <SectionReveal delay={0.1}>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {cards.map((card) => (
-              <div
+            {cards.map((card, idx) => (
+              <motion.div
                 key={card.title}
-                className="relative rounded-2xl p-8 overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl group"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: idx * 0.1 }}
+                viewport={{ once: true }}
+                className="relative rounded-2xl p-8 overflow-hidden transition-all duration-300 hover:-translate-y-3 hover:shadow-2xl group cursor-default"
                 style={{
                   background: "rgba(255,255,255,0.04)",
                   border: "1px solid rgba(255,255,255,0.08)",
                   backdropFilter: "blur(20px)",
                 }}
               >
+                {/* Animated gradient background on hover */}
+                <motion.div
+                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  style={{
+                    background: `linear-gradient(135deg, ${card.gradStart}15, ${card.gradEnd}15)`,
+                  }}
+                  animate={{ backgroundPosition: ["0% 0%", "100% 100%"] }}
+                  transition={{ duration: 3, repeat: Infinity }}
+                />
+
                 {/* Top accent bar */}
-                <div
+                <motion.div
                   className="absolute top-0 left-0 right-0 h-[3px]"
                   style={{
                     background: `linear-gradient(90deg, ${card.gradStart}, ${card.gradEnd})`,
                   }}
+                  animate={{ x: ["-100%", "100%"] }}
+                  transition={{ duration: 2, repeat: Infinity }}
                 />
 
-                <div
-                  className="w-12 h-12 rounded-xl flex items-center justify-center text-xl mb-5"
-                  style={{ background: card.iconBg }}
-                >
-                  {card.icon}
+                {/* Stats badge */}
+                <div className="absolute top-4 right-4 text-right">
+                  <motion.div
+                    className="text-sm font-black"
+                    style={{
+                      background: `linear-gradient(135deg, ${card.gradStart}, ${card.gradEnd})`,
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                      backgroundClip: "text",
+                      fontFamily: "var(--font-syne)",
+                    }}
+                    animate={{ scale: [1, 1.05, 1] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  >
+                    {card.stats}
+                  </motion.div>
+                  <p className="text-xs text-slate-500 mt-0.5">{card.label}</p>
                 </div>
 
+                {/* Icon with glow */}
+                <motion.div
+                  className="w-12 h-12 rounded-xl flex items-center justify-center text-xl mb-5 relative z-10 group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300"
+                  style={{ background: card.iconBg }}
+                  animate={{ y: [0, -3, 0] }}
+                  transition={{ duration: 3, repeat: Infinity }}
+                >
+                  {card.icon}
+                </motion.div>
+
                 <h3
-                  className="font-bold text-xl text-slate-100 mb-3"
+                  className="font-bold text-xl text-slate-100 mb-3 relative z-10"
                   style={{ fontFamily: "var(--font-syne)" }}
                 >
                   {card.title}
                 </h3>
-                <p className="text-slate-400 text-sm leading-relaxed">
+                <p className="text-slate-400 text-sm leading-relaxed relative z-10">
                   {card.desc}
                 </p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </SectionReveal>

@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import BackgroundBlobs from "@/components/BackgroundBlobs";
+import PageLoader from "@/components/PageLoader";
 import Hero from "@/components/sections/Hero";
 import About from "@/components/sections/About";
 import CodingProfiles from "@/components/sections/CodingProfiles";
@@ -13,6 +14,7 @@ import Footer from "@/components/Footer";
 export default function Home() {
   return (
     <main>
+      <PageLoader />
       <BackgroundBlobs />
       <Navbar />
       <Hero />
