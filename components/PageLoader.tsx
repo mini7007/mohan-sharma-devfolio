@@ -6,7 +6,7 @@ export default function PageLoader() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 2500);
+    const timer = setTimeout(() => setIsLoading(false), 2800);
     return () => clearTimeout(timer);
   }, []);
 
@@ -31,7 +31,7 @@ export default function PageLoader() {
             opacity: [0.3, 0.6, 0.3],
           }}
           transition={{
-            duration: 2.5,
+            duration: 2.8,
             repeat: 1,
             ease: "easeInOut",
           }}
@@ -40,87 +40,82 @@ export default function PageLoader() {
 
       {/* Main loader content */}
       <div className="relative z-10 flex flex-col items-center gap-8">
-        {/* Animated circles */}
-        <div className="relative w-32 h-32">
-          {/* Outer rotating circle */}
+        {/* Animated Panda Character - Sky Diving Effect */}
+        <div className="relative w-40 h-40 flex items-center justify-center">
+          {/* Panda body with sky diving animation */}
           <motion.div
-            className="absolute inset-0 rounded-full border-2 border-transparent border-t-blue-500 border-r-violet-500"
+            className="relative"
+            animate={{
+              y: [0, 20, 40, 20, 0],
+              rotate: [0, -15, -25, -15, 0],
+              x: [0, 10, 5, -10, 0],
+            }}
+            transition={{
+              duration: 2.8,
+              ease: "easeInOut",
+              repeat: 1,
+            }}
+          >
+            {/* Panda SVG */}
+            <svg
+              viewBox="0 0 200 200"
+              className="w-32 h-32"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              {/* Body */}
+              <circle cx="100" cy="110" r="45" fill="#ffffff" stroke="#000" strokeWidth="2" />
+              {/* Head */}
+              <circle cx="100" cy="60" r="40" fill="#ffffff" stroke="#000" strokeWidth="2" />
+              {/* Ears */}
+              <circle cx="75" cy="25" r="12" fill="#000" />
+              <circle cx="125" cy="25" r="12" fill="#000" />
+              {/* Eyes */}
+              <circle cx="88" cy="55" r="10" fill="#000" />
+              <circle cx="112" cy="55" r="10" fill="#000" />
+              {/* Eye shine */}
+              <circle cx="90" cy="53" r="4" fill="#ffffff" />
+              <circle cx="114" cy="53" r="4" fill="#ffffff" />
+              {/* Nose */}
+              <circle cx="100" cy="70" r="5" fill="#000" />
+              {/* Mouth */}
+              <path d="M 100 70 Q 95 75 90 73" stroke="#000" strokeWidth="2" />
+              <path d="M 100 70 Q 105 75 110 73" stroke="#000" strokeWidth="2" />
+              {/* Arms */}
+              <rect x="60" y="100" width="15" height="30" rx="7" fill="#000" />
+              <rect x="125" y="100" width="15" height="30" rx="7" fill="#000" />
+              {/* Legs */}
+              <rect x="75" y="150" width="15" height="25" rx="7" fill="#000" />
+              <rect x="110" y="150" width="15" height="25" rx="7" fill="#000" />
+            </svg>
+          </motion.div>
+
+          {/* Gradient orbs around panda */}
+          <motion.div
+            className="absolute w-48 h-48 rounded-full border-2 border-transparent border-t-blue-500 border-r-violet-500"
             animate={{ rotate: 360 }}
             transition={{
-              duration: 2,
+              duration: 3,
               repeat: 1,
               ease: "linear",
             }}
           />
-
-          {/* Middle rotating circle */}
-          <motion.div
-            className="absolute inset-3 rounded-full border-2 border-transparent border-b-violet-500 border-l-blue-500"
-            animate={{ rotate: -360 }}
-            transition={{
-              duration: 2.5,
-              repeat: 1,
-              ease: "linear",
-            }}
-          />
-
-          {/* Inner pulsing circle */}
-          <motion.div
-            className="absolute inset-8 rounded-full bg-gradient-to-r from-blue-500 to-violet-500"
-            animate={{
-              scale: [1, 1.2, 1],
-              boxShadow: [
-                "0 0 20px rgba(59,130,246,0.5)",
-                "0 0 60px rgba(139,92,246,0.8)",
-                "0 0 20px rgba(59,130,246,0.5)",
-              ],
-            }}
-            transition={{
-              duration: 2.5,
-              repeat: 1,
-              ease: "easeInOut",
-            }}
-          />
-
-          {/* Center text */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <motion.span
-              className="text-2xl font-black"
-              style={{
-                fontFamily: "var(--font-syne)",
-                background: "linear-gradient(135deg, #60a5fa, #a78bfa)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-              }}
-              animate={{
-                scale: [1, 1.1, 1],
-                opacity: [0.7, 1, 0.7],
-              }}
-              transition={{
-                duration: 2.5,
-                repeat: 1,
-              }}
-            >
-              DM
-            </motion.span>
-          </div>
         </div>
 
         {/* Loading text */}
         <motion.div
           className="text-center"
           animate={{ opacity: [0.5, 1, 0.5] }}
-          transition={{ duration: 2, repeat: 1 }}
+          transition={{ duration: 2.2, repeat: 1 }}
         >
           <h3
-            className="text-xl font-black text-white mb-2"
+            className="text-2xl font-black text-white mb-2"
             style={{ fontFamily: "var(--font-syne)" }}
           >
             Dev Mohan
           </h3>
           <p className="text-sm text-slate-400 tracking-widest">
-            Loading Portfolio
+            Skydiving into awesome code...
           </p>
         </motion.div>
 
