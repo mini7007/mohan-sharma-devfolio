@@ -56,37 +56,45 @@ export default function PageLoader() {
               repeat: 1,
             }}
           >
-            {/* Panda SVG */}
+            {/* Panda Face SVG */}
             <svg
               viewBox="0 0 200 200"
-              className="w-32 h-32"
+              className="w-40 h-40"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
             >
-              {/* Body */}
-              <circle cx="100" cy="110" r="45" fill="#ffffff" stroke="#000" strokeWidth="2" />
-              {/* Head */}
-              <circle cx="100" cy="60" r="40" fill="#ffffff" stroke="#000" strokeWidth="2" />
-              {/* Ears */}
-              <circle cx="75" cy="25" r="12" fill="#000" />
-              <circle cx="125" cy="25" r="12" fill="#000" />
-              {/* Eyes */}
-              <circle cx="88" cy="55" r="10" fill="#000" />
-              <circle cx="112" cy="55" r="10" fill="#000" />
-              {/* Eye shine */}
-              <circle cx="90" cy="53" r="4" fill="#ffffff" />
-              <circle cx="114" cy="53" r="4" fill="#ffffff" />
-              {/* Nose */}
-              <circle cx="100" cy="70" r="5" fill="#000" />
-              {/* Mouth */}
-              <path d="M 100 70 Q 95 75 90 73" stroke="#000" strokeWidth="2" />
-              <path d="M 100 70 Q 105 75 110 73" stroke="#000" strokeWidth="2" />
-              {/* Arms */}
-              <rect x="60" y="100" width="15" height="30" rx="7" fill="#000" />
-              <rect x="125" y="100" width="15" height="30" rx="7" fill="#000" />
-              {/* Legs */}
-              <rect x="75" y="150" width="15" height="25" rx="7" fill="#000" />
-              <rect x="110" y="150" width="15" height="25" rx="7" fill="#000" />
+              {/* Head - White base */}
+              <circle cx="100" cy="100" r="70" fill="#ffffff" stroke="#000" strokeWidth="2" />
+              
+              {/* Ears - Black */}
+              <circle cx="55" cy="40" r="22" fill="#000" />
+              <circle cx="145" cy="40" r="22" fill="#000" />
+              
+              {/* Eye patches - Black large circles */}
+              <circle cx="75" cy="85" r="28" fill="#000" />
+              <circle cx="125" cy="85" r="28" fill="#000" />
+              
+              {/* Eyes - White base inside black patches */}
+              <circle cx="75" cy="85" r="18" fill="#ffffff" />
+              <circle cx="125" cy="85" r="18" fill="#ffffff" />
+              
+              {/* Pupils - Black */}
+              <circle cx="75" cy="88" r="10" fill="#000" />
+              <circle cx="125" cy="88" r="10" fill="#000" />
+              
+              {/* Eye shine - White highlight */}
+              <circle cx="78" cy="84" r="4" fill="#ffffff" />
+              <circle cx="128" cy="84" r="4" fill="#ffffff" />
+              
+              {/* Nose - Black */}
+              <ellipse cx="100" cy="115" rx="8" ry="10" fill="#000" />
+              
+              {/* Mouth - Cute smile */}
+              <path d="M 100 115 Q 92 128 85 125" stroke="#000" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+              <path d="M 100 115 Q 108 128 115 125" stroke="#000" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+              
+              {/* Mouth center line */}
+              <path d="M 85 125 Q 100 130 115 125" stroke="#000" strokeWidth="2" fill="none" strokeLinecap="round" />
             </svg>
           </motion.div>
 
