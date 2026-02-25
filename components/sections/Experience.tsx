@@ -3,7 +3,7 @@ import SectionReveal from "@/components/ui/SectionReveal";
 const experiences = [
   {
     date: "2025 — Present",
-    company: "EC-Council",
+    company: "EC-Council Pvt Ltd",
     role: "Full Stack Developer",
     bullets: [
       "Building and maintaining full-stack features for cybersecurity education platforms serving global users",
@@ -13,8 +13,8 @@ const experiences = [
   },
   {
     date: "2023 — 2025",
-    company: "Vridhee Innovation",
-    role: "Frontend Developer",
+    company: "Vridhee Innovation Pvt Ltd",
+    role: "Software Engineer",
     bullets: [
       "Developed responsive, accessible React UIs for SaaS products used by enterprise clients",
       "Implemented state management with Redux and Context API for complex multi-step workflows",
