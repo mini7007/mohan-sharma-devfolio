@@ -40,72 +40,15 @@ export default function PageLoader() {
 
       {/* Main loader content */}
       <div className="relative z-10 flex flex-col items-center gap-8">
-        {/* Animated Panda Character - Sky Diving Effect */}
-        <div className="relative w-40 h-40 flex items-center justify-center">
-          {/* Panda body with sky diving animation */}
+        {/* Animated Rounded Progress Bar */}
+        <div className="w-64 h-2.5 rounded-full bg-slate-700/50 overflow-hidden">
           <motion.div
-            className="relative"
-            animate={{
-              y: [0, 20, 40, 20, 0],
-              rotate: [0, -15, -25, -15, 0],
-              x: [0, 10, 5, -10, 0],
-            }}
+            className="h-full bg-gradient-to-r from-blue-500 via-violet-500 to-pink-500 rounded-full"
+            initial={{ width: "0%" }}
+            animate={{ width: "100%" }}
             transition={{
-              duration: 2.8,
+              duration: 2.5,
               ease: "easeInOut",
-              repeat: 1,
-            }}
-          >
-            {/* Panda Face SVG */}
-            <svg
-              viewBox="0 0 200 200"
-              className="w-40 h-40"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              {/* Head - White base */}
-              <circle cx="100" cy="100" r="70" fill="#ffffff" stroke="#000" strokeWidth="2" />
-              
-              {/* Ears - Black */}
-              <circle cx="55" cy="40" r="22" fill="#000" />
-              <circle cx="145" cy="40" r="22" fill="#000" />
-              
-              {/* Eye patches - Black large circles */}
-              <circle cx="75" cy="85" r="28" fill="#000" />
-              <circle cx="125" cy="85" r="28" fill="#000" />
-              
-              {/* Eyes - White base inside black patches */}
-              <circle cx="75" cy="85" r="18" fill="#ffffff" />
-              <circle cx="125" cy="85" r="18" fill="#ffffff" />
-              
-              {/* Pupils - Black */}
-              <circle cx="75" cy="88" r="10" fill="#000" />
-              <circle cx="125" cy="88" r="10" fill="#000" />
-              
-              {/* Eye shine - White highlight */}
-              <circle cx="78" cy="84" r="4" fill="#ffffff" />
-              <circle cx="128" cy="84" r="4" fill="#ffffff" />
-              
-              {/* Nose - Black */}
-              <ellipse cx="100" cy="115" rx="8" ry="10" fill="#000" />
-              
-              {/* Mouth - Cute smile */}
-              <path d="M 100 115 Q 92 128 85 125" stroke="#000" strokeWidth="2.5" fill="none" strokeLinecap="round" />
-              <path d="M 100 115 Q 108 128 115 125" stroke="#000" strokeWidth="2.5" fill="none" strokeLinecap="round" />
-              
-              {/* Mouth center line */}
-              <path d="M 85 125 Q 100 130 115 125" stroke="#000" strokeWidth="2" fill="none" strokeLinecap="round" />
-            </svg>
-          </motion.div>
-
-          {/* Gradient orbs around panda */}
-          <motion.div
-            className="absolute w-48 h-48 rounded-full border-2 border-transparent border-t-blue-500 border-r-violet-500"
-            animate={{ rotate: 360 }}
-            transition={{
-              duration: 3,
-              repeat: 1,
-              ease: "linear",
             }}
           />
         </div>
@@ -123,7 +66,7 @@ export default function PageLoader() {
             Dev Mohan
           </h3>
           <p className="text-sm text-slate-400 tracking-widest">
-            Skydiving into awesome code...
+            Loading portfolio...
           </p>
         </motion.div>
 
