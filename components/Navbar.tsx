@@ -33,10 +33,10 @@ export default function Navbar() {
     >
       <a
         href="#"
-        className="font-display font-black text-xl bg-gradient-to-r from-blue-400 to-violet-400 bg-clip-text text-transparent"
+        className="font-display font-black text-lg md:text-xl bg-gradient-to-r from-blue-400 via-violet-400 to-pink-400 bg-clip-text text-transparent hover:opacity-80 transition-opacity"
         style={{ fontFamily: "var(--font-syne)" }}
       >
-        MS.
+        Dev Mohan
       </a>
 
       {/* Desktop links */}

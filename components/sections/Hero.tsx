@@ -1,6 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
-import { ArrowRight, MessageCircle } from "lucide-react";
+import { ArrowRight, MessageCircle, Download, Zap } from "lucide-react";
 
 const badges = [
   { icon: "⭐", label: "3+ Years Experience" },
@@ -18,7 +18,7 @@ export default function Hero() {
     >
       <div className="max-w-5xl mx-auto px-6 py-24">
         {/* Badges */}
-        <div className="flex flex-wrap gap-3 mb-10">
+        <div className="flex flex-wrap gap-3 mb-6">
           {badges.map((badge, i) => (
             <motion.span
               key={badge.label}
@@ -32,6 +32,23 @@ export default function Hero() {
             </motion.span>
           ))}
         </div>
+
+        {/* Open for Opportunities Badge */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.4, duration: 0.5 }}
+          className="mb-8 inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-gradient-to-r from-green-500/20 to-emerald-500/20 border border-green-500/40 hover:border-green-500/60 transition-colors"
+        >
+          <motion.div
+            animate={{ scale: [1, 1.2, 1] }}
+            transition={{ duration: 2, repeat: Infinity }}
+            className="w-2 h-2 rounded-full bg-green-400"
+          />
+          <span className="text-sm font-semibold text-green-300">
+            Open for Opportunities
+          </span>
+        </motion.div>
 
         {/* Name */}
         <motion.h1
@@ -75,9 +92,19 @@ export default function Hero() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.65, duration: 0.6 }}
+          transition={{ delay: 0.75, duration: 0.6 }}
           className="flex flex-wrap gap-4"
         >
+          <a
+            href="https://ik.imagekit.io/Myimage/Mohan_Sharma_Fullstack_Engineer_AI_Enabled.pdf?updatedAt=1771672290161"
+            download
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 bg-gradient-to-r from-green-500 to-emerald-500 text-white font-semibold px-7 py-3.5 rounded-lg hover:-translate-y-0.5 hover:shadow-[0_0_50px_rgba(34,197,94,0.5)] transition-all duration-200 shadow-[0_0_30px_rgba(34,197,94,0.3)]"
+          >
+            <Download size={16} />
+            Download Resume
+          </a>
           <a
             href="#projects"
             className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500 to-violet-500 text-white font-semibold px-7 py-3.5 rounded-lg hover:-translate-y-0.5 hover:shadow-[0_0_50px_rgba(139,92,246,0.5)] transition-all duration-200 shadow-[0_0_30px_rgba(139,92,246,0.3)]"
