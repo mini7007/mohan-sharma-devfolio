@@ -1,0 +1,59 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-syne: "Syne", sans-serif;
+    --font-dm-sans: "DM Sans", sans-serif;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-navy text-slate-200 antialiased;
+    font-family: var(--font-dm-sans);
+  }
+
+  ::-webkit-scrollbar {
+    width: 4px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-navy;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-violet-600 rounded;
+  }
+}
+
+@layer utilities {
+  .grad-text {
+    @apply bg-gradient-to-r from-blue-400 via-violet-400 to-pink-400 bg-clip-text text-transparent;
+  }
+
+  .glass {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(20px);
+  }
+
+  .glass-hover {
+    @apply transition-all duration-300;
+  }
+  .glass-hover:hover {
+    border-color: rgba(139, 92, 246, 0.4);
+    box-shadow: 0 20px 60px rgba(139, 92, 246, 0.15);
+    transform: translateY(-6px);
+  }
+
+  .section-label {
+    @apply text-xs tracking-widest uppercase text-violet-400 font-semibold mb-3;
+  }
+
+  .section-title {
+    font-family: var(--font-syne);
+    @apply text-3xl md:text-4xl lg:text-5xl font-black leading-tight mb-4;
+  }
+}
