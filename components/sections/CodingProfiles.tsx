@@ -46,7 +46,7 @@ const profiles = [
   {
     name: "HackerRank",
     desc: "Problem solving & skills",
-    href: "https://www.hackerrank.com/mohan_sharma",
+    href: "https://www.hackerrank.com/dashboard",
     emoji: "🏆",
     color: "rgba(236,72,153,0.08)",
     border: "rgba(236,72,153,0.2)",
@@ -56,7 +56,7 @@ const profiles = [
   {
     name: "CodeForces",
     desc: "Competitive programming",
-    href: "https://codeforces.com/profile/mohan_sharma",
+    href: "https://codeforces.com/profile/Mini7007",
     emoji: "⚔️",
     color: "rgba(168,85,247,0.08)",
     border: "rgba(168,85,247,0.2)",

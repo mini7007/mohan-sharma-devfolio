@@ -73,7 +73,7 @@ export default function Hero() {
           transition={{ delay: 0.45, duration: 0.6 }}
           className="text-xl md:text-2xl text-slate-400 font-light mb-6"
         >
-          AI-Enabled Full Stack Developer
+          Software Engineer & Full Stack Developer
         </motion.p>
 
         {/* Description */}
