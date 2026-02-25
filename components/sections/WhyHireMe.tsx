@@ -1,3 +1,4 @@
+"use client";
 import SectionReveal from "@/components/ui/SectionReveal";
 import { motion } from "framer-motion";
 

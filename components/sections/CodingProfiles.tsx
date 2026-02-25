@@ -1,3 +1,4 @@
+"use client";
 import SectionReveal from "@/components/ui/SectionReveal";
 import { ExternalLink } from "lucide-react";
 
