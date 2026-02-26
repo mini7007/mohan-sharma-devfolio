@@ -6,18 +6,71 @@ interface SectionRevealProps {
   children: ReactNode;
   delay?: number;
   className?: string;
+  direction?: "up" | "down" | "left" | "right";
+  duration?: number;
+  stagger?: boolean;
 }
 
-export default function SectionReveal({ children, delay = 0, className }: SectionRevealProps) {
+export default function SectionReveal({
+  children,
+  delay = 0,
+  className,
+  direction = "up",
+  duration = 0.6,
+  stagger = false,
+}: SectionRevealProps) {
+  const directionMap = {
+    up: { y: 30, x: 0 },
+    down: { y: -30, x: 0 },
+    left: { x: 30, y: 0 },
+    right: { x: -30, y: 0 },
+  };
+
+  const containerVariants = stagger
+    ? {
+        hidden: { opacity: 0 },
+        visible: {
+          opacity: 1,
+          transition: {
+            staggerChildren: 0.1,
+            delayChildren: delay,
+          },
+        },
+      }
+    : {};
+
+  const itemVariants = stagger
+    ? {
+        hidden: { opacity: 0, ...directionMap[direction] },
+        visible: {
+          opacity: 1,
+          x: 0,
+          y: 0,
+          transition: { duration, ease: "easeOut" },
+        },
+      }
+    : {};
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={stagger ? "hidden" : { opacity: 0, ...directionMap[direction] }}
+      whileInView={stagger ? "visible" : { opacity: 1, x: 0, y: 0 }}
+      variants={stagger ? containerVariants : undefined}
       viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.6, delay, ease: "easeOut" }}
+      transition={!stagger ? { duration, delay, ease: "easeOut" } : undefined}
       className={className}
     >
-      {children}
+      {stagger && Array.isArray(children) ? (
+        children.map((child, idx) => (
+          <motion.div key={idx} variants={itemVariants}>
+            {child}
+          </motion.div>
+        ))
+      ) : stagger ? (
+        <motion.div variants={itemVariants}>{children}</motion.div>
+      ) : (
+        children
+      )}
     </motion.div>
   );
 }

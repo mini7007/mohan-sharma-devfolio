@@ -1,6 +1,7 @@
 "use client";
-import { motion } from "framer-motion";
-import { ArrowRight, MessageCircle, Download, Zap } from "lucide-react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
+import { ArrowRight, MessageCircle, Download } from "lucide-react";
 
 const badges = [
   { icon: "⭐", label: "3+ Years Experience" },
@@ -10,24 +11,55 @@ const badges = [
 ];
 
 export default function Hero() {
+  const ref = useRef(null);
+  const { scrollY } = useScroll();
+  const y = useTransform(scrollY, [0, 300], [0, 100]);
+
   return (
     <section
       id="hero"
-      className="relative z-10 min-h-screen flex items-center pt-20"
+      className="relative z-10 min-h-screen flex items-center pt-20 overflow-hidden"
       aria-label="Hero section"
+      ref={ref}
     >
-      <div className="max-w-5xl mx-auto px-6 py-24">
-        {/* Badges */}
+      {/* Animated background gradient */}
+      <motion.div
+        animate={{
+          backgroundPosition: ["0% 0%", "100% 100%", "0% 0%"],
+        }}
+        transition={{
+          duration: 15,
+          repeat: Infinity,
+          ease: "linear",
+        }}
+        className="absolute inset-0 opacity-20 blur-3xl"
+        style={{
+          background:
+            "radial-gradient(circle at 20% 50%, #3b82f6 0%, transparent 50%),radial-gradient(circle at 80% 80%, #8b5cf6 0%, transparent 50%)",
+          backgroundSize: "200% 200%",
+        }}
+      />
+
+      <div className="max-w-5xl mx-auto px-6 py-24 relative z-10">
+        {/* Badges with stagger */}
         <div className="flex flex-wrap gap-3 mb-6">
           {badges.map((badge, i) => (
             <motion.span
               key={badge.label}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 20, scale: 0.9 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              whileHover={{ scale: 1.05, y: -2 }}
               transition={{ delay: i * 0.1, duration: 0.5 }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass text-sm font-medium text-slate-200"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass text-sm font-medium text-slate-200 hover:border-violet-500/50 transition-colors cursor-default"
             >
-              <span role="img" aria-label="">{badge.icon}</span>
+              <motion.span
+                animate={{ rotate: [0, 10, -10, 0] }}
+                transition={{ delay: i * 0.1 + 0.3, duration: 2, repeat: Infinity }}
+                role="img"
+                aria-label=""
+              >
+                {badge.icon}
+              </motion.span>
               {badge.label}
             </motion.span>
           ))}
@@ -50,18 +82,25 @@ export default function Hero() {
           </span>
         </motion.div>
 
-        {/* Name */}
+        {/* Name with parallax */}
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.7 }}
-          className="font-black leading-[0.95] mb-6"
           style={{
+            y,
             fontFamily: "var(--font-syne)",
             fontSize: "clamp(3.5rem, 9vw, 7rem)",
           }}
+          className="font-black leading-[0.95] mb-6"
         >
-          <span className="grad-text">Mohan</span>
+          <motion.span
+            className="grad-text inline-block"
+            animate={{ y: [0, -10, 0] }}
+            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+          >
+            Mohan
+          </motion.span>
           <br />
           <span className="text-white">Sharma</span>
         </motion.h1>
