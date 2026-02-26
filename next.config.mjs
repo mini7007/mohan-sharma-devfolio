@@ -3,6 +3,10 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   optimizeFonts: true,
+  webpack: (config, { isServer }) => {
+    config.cache = false;
+    return config;
+  },
   images: {
     formats: ["image/avif", "image/webp"],
     remotePatterns: [
