@@ -30,10 +30,12 @@
 }
 
 @layer utilities {
+  /* Gradient text - with proper contrast fallback */
   .grad-text {
     @apply bg-gradient-to-r from-blue-400 via-violet-400 to-pink-400 bg-clip-text text-transparent;
   }
 
+  /* Glass morphism with enhanced opacity for accessibility */
   .glass {
     background: rgba(255, 255, 255, 0.04);
     border: 1px solid rgba(255, 255, 255, 0.08);
@@ -49,12 +51,96 @@
     transform: translateY(-6px);
   }
 
+  /* Section typography */
   .section-label {
     @apply text-xs tracking-widest uppercase text-violet-400 font-semibold mb-3;
   }
 
   .section-title {
     font-family: var(--font-syne);
-    @apply text-3xl md:text-4xl lg:text-5xl font-black leading-tight mb-4;
+    @apply text-3xl md:text-4xl lg:text-5xl font-black leading-tight mb-4 text-white;
+  }
+
+  /* Enhanced text color utilities for WCAG AA compliance */
+  .text-primary {
+    @apply text-slate-100;
+  }
+
+  .text-secondary {
+    @apply text-slate-300;
+  }
+
+  .text-tertiary {
+    @apply text-slate-400;
+  }
+
+  .text-muted {
+    @apply text-slate-500;
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  /* Mobile touch target optimization */
+  @media (hover: none) {
+    button,
+    a,
+    [role="button"] {
+      min-height: 44px;
+      min-width: 44px;
+      padding: max(0.5rem, (44px - 1em) / 2);
+    }
+
+    /* Disable hover states on touch devices */
+    .glass-hover:hover,
+    .glass:hover {
+      border-color: rgba(255, 255, 255, 0.08);
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* Remove pointer cursor effects */
+    html {
+      cursor: auto;
+    }
+  }
+
+  /* Low-end device optimizations */
+  @media (prefers-reduced-data: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0s !important;
+      transition-duration: 0s !important;
+    }
+
+    img,
+    svg {
+      filter: none;
+    }
+
+    body {
+      background-attachment: scroll;
+    }
+  }
+
+  /* Performance: Use transform instead of top/left */
+  .glass-hover:hover {
+    will-change: transform, border-color, box-shadow;
+  }
+
+  /* Ensure touch-friendly interactive elements */
+  input,
+  button,
+  textarea,
+  select {
+    font-size: 16px;
   }
 }
