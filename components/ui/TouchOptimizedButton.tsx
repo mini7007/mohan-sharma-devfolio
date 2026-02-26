@@ -5,13 +5,12 @@ import { motion, HTMLMotionProps } from "framer-motion";
 type TouchOptimizedButtonProps = Omit<
   HTMLMotionProps<"button">,
   "children"
-
 > & {
-> children: ReactNode;
-> variant ?: "primary" | "secondary" | "glass";
-> size ?: "sm" | "md" | "lg";
-> icon ?: ReactNode;
-> };
+  children: ReactNode;
+  variant?: "primary" | "secondary" | "glass";
+  size?: "sm" | "md" | "lg";
+  icon?: ReactNode;
+};
 
 export default function TouchOptimizedButton({
   children,
@@ -44,7 +43,8 @@ export default function TouchOptimizedButton({
       whileTap={{ scale: 0.95 }}
       onTouchStart={() => setIsPressed(true)}
       onTouchEnd={() => setIsPressed(false)}
-      className={`         relative inline-flex items-center justify-center gap-2 rounded-xl
+      className={`
+        relative inline-flex items-center justify-center gap-2 rounded-xl
         transition-all duration-200 active:scale-95
         ${sizeClasses[size]}
         ${variantClasses[variant]}
@@ -53,7 +53,8 @@ export default function TouchOptimizedButton({
       style={{ WebkitTapHighlightColor: "transparent" }}
       {...props}
     >
-      {icon && <span className="flex-shrink-0">{icon}</span>} <span>{children}</span>
+      {icon && <span className="flex-shrink-0">{icon}</span>}
+      <span>{children}</span>
     </motion.button>
   );
 }
