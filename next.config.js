@@ -2,6 +2,7 @@
 const nextConfig = {
   images: {
     remotePatterns: [],
+    domains: ["cdn.simpleicons.org"],
   },
 };
 

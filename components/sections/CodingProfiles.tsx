@@ -1,67 +1,86 @@
 "use client";
+
 import SectionReveal from "@/components/ui/SectionReveal";
 import { ExternalLink } from "lucide-react";
 
-const profiles = [
+type Profile = {
+  name: string;
+  desc: string;
+  href: string;
+  logo: string;
+  color: string;
+  border: string;
+  gradStart: string;
+  gradEnd: string;
+  glow: string;
+};
+
+const profiles: Profile[] = [
   {
     name: "GitHub",
     desc: "Open source & project repos",
     href: "https://github.com/mini7007",
-    emoji: "⚫",
+    logo: "https://cdn.simpleicons.org/github",
     color: "rgba(255,255,255,0.06)",
     border: "rgba(255,255,255,0.12)",
     gradStart: "#ffffff",
     gradEnd: "#94a3b8",
+    glow: "rgba(255,255,255,0.45)",
   },
   {
     name: "LeetCode",
     desc: "900+ problems · Top solver",
     href: "https://leetcode.com/u/mohan5050390/",
-    emoji: "🟡",
+    logo: "https://cdn.simpleicons.org/leetcode",
     color: "rgba(255,180,0,0.08)",
     border: "rgba(255,180,0,0.2)",
     gradStart: "#ffd700",
     gradEnd: "#ffb800",
+    glow: "rgba(255,184,0,0.6)",
   },
   {
     name: "GeeksforGeeks",
     desc: "DSA articles & solutions",
     href: "https://www.geeksforgeeks.org/profile/mohansharmadev",
-    emoji: "🟢",
+    logo: "https://cdn.simpleicons.org/geeksforgeeks",
     color: "rgba(34,197,94,0.08)",
     border: "rgba(34,197,94,0.2)",
     gradStart: "#22c55e",
     gradEnd: "#10b981",
+    glow: "rgba(34,197,94,0.6)",
   },
   {
     name: "LinkedIn",
     desc: "Professional network",
     href: "https://www.linkedin.com/in/mohan-sharma-dev/",
-    emoji: "🔵",
+    logo: "https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/linkedin.svg",
     color: "rgba(59,130,246,0.08)",
     border: "rgba(59,130,246,0.2)",
     gradStart: "#3b82f6",
     gradEnd: "#0ea5e9",
+    glow: "rgba(59,130,246,0.65)",
   },
   {
     name: "HackerRank",
     desc: "Problem solving & skills",
-    href: "https://www.hackerrank.com/dashboard",
-    emoji: "🏆",
-    color: "rgba(236,72,153,0.08)",
-    border: "rgba(236,72,153,0.2)",
-    gradStart: "#ec4899",
-    gradEnd: "#f43f5e",
+    href: "https://www.hackerrank.com/profile/mohan5050390",
+    logo: "https://cdn.simpleicons.org/hackerrank",
+    color: "rgba(0,234,100,0.08)",
+    border: "rgba(0,234,100,0.25)",
+    gradStart: "#00ea64",
+    gradEnd: "#00c853",
+    glow: "rgba(0,234,100,0.65)",
   },
   {
     name: "CodeForces",
     desc: "Competitive programming",
     href: "https://codeforces.com/profile/Mini7007",
-    emoji: "⚔️",
+    logo: "https://cdn.simpleicons.org/codeforces",
     color: "rgba(168,85,247,0.08)",
     border: "rgba(168,85,247,0.2)",
     gradStart: "#a855f7",
     gradEnd: "#8b5cf6",
+    glow: "rgba(168,85,247,0.65)",
   },
 ];
 
@@ -87,38 +106,66 @@ export default function CodingProfiles() {
                 href={profile.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group relative flex flex-col items-center gap-3 p-6 rounded-2xl text-center transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl overflow-hidden"
+                aria-label={`Visit ${profile.name} profile`}
+                className="group relative flex flex-col items-center gap-3 p-6 rounded-2xl text-center
+                transition-all duration-500 ease-out
+                hover:-translate-y-3 hover:scale-[1.04]
+                overflow-hidden"
                 style={{
                   background: "rgba(255,255,255,0.04)",
                   border: `1px solid ${profile.border}`,
                   backdropFilter: "blur(20px)",
                 }}
-                aria-label={`Visit ${profile.name} profile`}
               >
-                {/* Animated gradient overlay on hover */}
+                {/* gradient hover overlay */}
                 <div
-                  className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-300"
+                  className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-500"
                   style={{
                     background: `linear-gradient(135deg, ${profile.gradStart}, ${profile.gradEnd})`,
                   }}
                 />
 
+                {/* glow */}
                 <div
-                  className="w-14 h-14 rounded-xl flex items-center justify-center text-2xl relative z-10 group-hover:scale-110 transition-transform duration-300"
-                  style={{ background: profile.color }}
-                >
-                  {profile.emoji}
-                </div>
+                  className="pointer-events-none absolute -inset-[1px] rounded-2xl opacity-0 blur-xl transition-opacity duration-500 group-hover:opacity-100"
+                  style={{ background: profile.glow }}
+                />
+
+                {/* icon */}
                 <div
-                  className="font-bold text-base text-slate-100 relative z-10"
-                  style={{ fontFamily: "var(--font-syne)" }}
+                  className="w-14 h-14 rounded-xl flex items-center justify-center relative z-10
+                  transition-all duration-500
+                  group-hover:scale-110 group-hover:rotate-3"
+                  style={{
+                    background: profile.color,
+                    boxShadow:
+                      "inset 0 0 0 1px rgba(255,255,255,0.05)",
+                  }}
                 >
-                  {profile.name}
+                  <img
+                    src={profile.logo}
+                    alt={profile.name}
+                    className="w-7 h-7 object-contain transition-transform duration-500 group-hover:scale-110"
+                  />
                 </div>
-                <div className="text-xs text-slate-500 relative z-10">{profile.desc}</div>
+
+                {/* 🔥 TEXT WRAPPER (new) */}
+                <div className="relative z-10 transition-transform duration-500 group-hover:-translate-y-0.5">
+                  <div
+                    className="font-bold text-base text-slate-200 transition-colors duration-300 group-hover:text-white"
+                    style={{ fontFamily: "var(--font-syne)" }}
+                  >
+                    {profile.name}
+                  </div>
+
+                  <div className="text-xs text-slate-500 transition-all duration-300 group-hover:text-slate-200">
+                    {profile.desc}
+                  </div>
+                </div>
+
                 <ExternalLink
                   size={14}
-                  className="text-slate-600 group-hover:text-slate-100 transition-colors relative z-10"
+                  className="relative z-10 text-slate-600 transition-all duration-300 group-hover:text-white group-hover:scale-110"
                 />
               </a>
             ))}
