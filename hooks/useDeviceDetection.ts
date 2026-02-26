@@ -15,7 +15,7 @@ export function useDeviceDetection(): DeviceInfo {
   });
 
   useEffect(() => {
-    // Check for touch device
+    // Touch device detection
     const isTouchDevice =
       window.matchMedia("(hover: none)").matches ||
       navigator.maxTouchPoints > 0 ||
@@ -23,14 +23,17 @@ export function useDeviceDetection(): DeviceInfo {
         navigator.userAgent
       );
 
-    // Check for reduced motion preference
+    // Reduced motion preference
     const prefersReducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches;
 
-    // Check for low-end device (estimated via memory)
+    // Safe deviceMemory detection
+    const nav = navigator as Navigator & { deviceMemory?: number };
+    const deviceMemory = nav.deviceMemory ?? 8;
+
     const isLowEndDevice =
-      (navigator.deviceMemory as number) < 4 ||
+      deviceMemory < 4 ||
       window.matchMedia("(prefers-reduced-data: reduce)").matches;
 
     setDeviceInfo({
@@ -39,8 +42,10 @@ export function useDeviceDetection(): DeviceInfo {
       isLowEndDevice,
     });
 
-    // Listen for changes
-    const reduceMotionMQ = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const reduceMotionMQ = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    );
+
     const handleReduceMotionChange = () => {
       setDeviceInfo((prev) => ({
         ...prev,
@@ -49,8 +54,13 @@ export function useDeviceDetection(): DeviceInfo {
     };
 
     reduceMotionMQ.addEventListener("change", handleReduceMotionChange);
-    return () =>
-      reduceMotionMQ.removeEventListener("change", handleReduceMotionChange);
+
+    return () => {
+      reduceMotionMQ.removeEventListener(
+        "change",
+        handleReduceMotionChange
+      );
+    };
   }, []);
 
   return deviceInfo;
