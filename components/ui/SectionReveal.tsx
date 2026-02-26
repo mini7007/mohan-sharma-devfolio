@@ -55,7 +55,7 @@ export default function SectionReveal({
     <motion.div
       initial={stagger ? "hidden" : { opacity: 0, ...directionMap[direction] }}
       whileInView={stagger ? "visible" : { opacity: 1, x: 0, y: 0 }}
-      variants={stagger ? containerVariants : {}}
+      variants={stagger ? containerVariants : undefined}
       viewport={{ once: true, margin: "-60px" }}
       transition={!stagger ? { duration, delay, ease: "easeOut" } : undefined}
       className={className}
