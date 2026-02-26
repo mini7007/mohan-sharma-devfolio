@@ -50,9 +50,7 @@ className={`         relative inline-flex items-center justify-center gap-2 roun
         ${variantClasses[variant]}
         ${className}
       `}
-style={{
-WebkitTapHighlightColor: "transparent",
-}}
+style={{ WebkitTapHighlightColor: "transparent" }}
 {...props}
 >
 {icon && <span className="flex-shrink-0">{icon}</span>} <span>{children}</span>
