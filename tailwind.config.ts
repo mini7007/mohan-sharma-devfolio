@@ -19,6 +19,8 @@ const config: Config = {
       animation: {
         "blob-float": "blobFloat 8s ease-in-out infinite alternate",
         "fade-up": "fadeUp 0.7s ease both",
+        "glow-pulse": "glowPulse 3s ease-in-out infinite",
+        "float-smooth": "floatSmooth 4s ease-in-out infinite",
       },
       keyframes: {
         blobFloat: {
@@ -28,6 +30,14 @@ const config: Config = {
         fadeUp: {
           from: { opacity: "0", transform: "translateY(30px)" },
           to: { opacity: "1", transform: "translateY(0)" },
+        },
+        glowPulse: {
+          "0%, 100%": { boxShadow: "0 0 30px rgba(139, 92, 246, 0.3)" },
+          "50%": { boxShadow: "0 0 60px rgba(139, 92, 246, 0.6)" },
+        },
+        floatSmooth: {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-10px)" },
         },
       },
       backgroundImage: {
