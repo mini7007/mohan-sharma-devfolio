@@ -12,6 +12,9 @@
   html {
     scroll-behavior: smooth;
     cursor: none;
+    /* GPU acceleration for smooth scrolling */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   body {
@@ -58,8 +61,8 @@
   .glass {
     background: rgba(255, 255, 255, 0.05);
     border: 1.5px solid rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
   }
 
   {/* Premium glass hover state */}
@@ -205,5 +208,29 @@
   {/* Smooth page transitions */}
   html {
     scroll-padding-top: 80px;
+  }
+
+  {/* Magnetic button styling */}
+  .magnetic-button {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    will-change: transform;
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
+  }
+
+  {/* GPU acceleration for smooth animations */}
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  {/* Optimize for high refresh rate displays */}
+  @supports (image-rendering: crisp-edges) {
+    html {
+      image-rendering: -webkit-optimize-contrast;
+    }
   }
 }

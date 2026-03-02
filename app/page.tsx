@@ -2,6 +2,8 @@ import Navbar from "@/components/Navbar";
 import BackgroundBlobs from "@/components/BackgroundBlobs";
 import PageLoader from "@/components/PageLoader";
 import CustomCursor from "@/components/CustomCursor";
+import MouseSpotlight from "@/components/MouseSpotlight";
+import ScrollProgress from "@/components/ScrollProgress";
 import Hero from "@/components/sections/Hero";
 import About from "@/components/sections/About";
 import CodingProfiles from "@/components/sections/CodingProfiles";
@@ -17,6 +19,8 @@ export default function Home() {
     <main>
       <PageLoader />
       <CustomCursor />
+      <MouseSpotlight />
+      <ScrollProgress />
       <BackgroundBlobs />
       <Navbar />
       <Hero />

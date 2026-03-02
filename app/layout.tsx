@@ -81,6 +81,21 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-title" content="Dev Mohan" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="theme-color" content="#0f172a" />
+        {/* Font preload for faster rendering */}
+        <link
+          rel="preload"
+          href="https://fonts.gstatic.com/s/syne/v14/8vIL7ww63mVu7gb5c-k.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="https://fonts.gstatic.com/s/dmsans/v15/raxfHi23_N0_e8i0Ts_d-jH1Eo5cK.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
       </head>
       <body className="bg-navy overflow-x-hidden">
         {children}
