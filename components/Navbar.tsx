@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { Menu, X } from "lucide-react";
 
@@ -21,77 +22,147 @@ export default function Navbar() {
   }, []);
 
   return (
-    <nav
+    <motion.nav
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 px-6 py-4 flex items-center justify-between transition-all duration-300",
+        "fixed top-0 left-0 right-0 z-50 px-6 py-4 flex items-center justify-between transition-all duration-500",
         scrolled
-          ? "bg-navy/80 backdrop-blur-xl border-b border-white/[0.06]"
+          ? "bg-navy/40 backdrop-blur-2xl border-b border-white/[0.08]"
           : "bg-transparent"
       )}
       role="navigation"
       aria-label="Main navigation"
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
     >
-      <a
+      {/* Animated background gradient on scroll */}
+      {scrolled && (
+        <motion.div
+          className="absolute inset-0 pointer-events-none"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3 }}
+          style={{
+            background: "linear-gradient(180deg, rgba(15,23,42,0.8), rgba(15,23,42,0.3))",
+          }}
+        />
+      )}
+
+      <motion.a
         href="#"
-        className="font-display font-black text-lg md:text-xl bg-gradient-to-r from-blue-400 via-violet-400 to-pink-400 bg-clip-text text-transparent hover:opacity-80 transition-opacity"
+        className="font-display font-black text-lg md:text-xl bg-gradient-to-r from-blue-400 via-violet-400 to-pink-400 bg-clip-text text-transparent hover:opacity-80 transition-opacity relative z-10"
         style={{ fontFamily: "var(--font-syne)" }}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
       >
         Dev Mohan
-      </a>
+      </motion.a>
 
-      {/* Desktop links */}
-      <ul className="hidden md:flex items-center gap-8" role="list">
-        {links.map((link) => (
+      {/* Desktop links with enhanced hover effects */}
+      <ul className="hidden md:flex items-center gap-8 relative z-10" role="list">
+        {links.map((link, i) => (
           <li key={link.href}>
-            <a
+            <motion.a
               href={link.href}
-              className="text-slate-400 hover:text-slate-100 text-sm tracking-wide transition-colors duration-200"
+              className="text-slate-400 hover:text-slate-100 text-sm tracking-wide transition-colors duration-300 relative"
+              whileHover={{ color: "#e2e8f0" }}
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.08 }}
             >
               {link.label}
-            </a>
+              <motion.div
+                className="absolute -bottom-2 left-0 h-0.5 bg-gradient-to-r from-blue-400 to-violet-400"
+                initial={{ width: 0 }}
+                whileHover={{ width: "100%" }}
+                transition={{ duration: 0.3 }}
+              />
+            </motion.a>
           </li>
         ))}
-        <li>
-          <a
+        <motion.li
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.32 }}
+        >
+          <motion.a
             href="#contact"
-            className="bg-gradient-to-r from-blue-500 to-violet-500 text-white text-sm font-semibold px-5 py-2 rounded-lg hover:-translate-y-0.5 transition-transform duration-200"
+            className="text-white text-sm font-semibold px-6 py-2.5 rounded-lg relative overflow-hidden"
+            style={{
+              background: "linear-gradient(135deg, #3b82f6, #8b5cf6)",
+            }}
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.95 }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.boxShadow = "0 10px 30px rgba(139,92,246,0.4)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.boxShadow = "0 5px 15px rgba(139,92,246,0.2)";
+            }}
           >
             Hire Me
-          </a>
-        </li>
+          </motion.a>
+        </motion.li>
       </ul>
 
-      {/* Mobile toggle */}
-      <button
-        className="md:hidden text-slate-400 hover:text-slate-100"
+      {/* Mobile toggle with animation */}
+      <motion.button
+        className="md:hidden text-slate-400 hover:text-slate-100 relative z-10 p-2 rounded-lg hover:bg-white/5 transition-colors"
         onClick={() => setMobileOpen(!mobileOpen)}
         aria-label={mobileOpen ? "Close menu" : "Open menu"}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.95 }}
       >
-        {mobileOpen ? <X size={20} /> : <Menu size={20} />}
-      </button>
+        <motion.div
+          animate={{ rotate: mobileOpen ? 90 : 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          {mobileOpen ? <X size={20} /> : <Menu size={20} />}
+        </motion.div>
+      </motion.button>
 
-      {/* Mobile menu */}
-      {mobileOpen && (
-        <div className="absolute top-full left-0 right-0 glass border-b border-white/[0.08] py-4 px-6 flex flex-col gap-4 md:hidden">
-          {links.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="text-slate-300 text-sm py-1"
-              onClick={() => setMobileOpen(false)}
-            >
-              {link.label}
-            </a>
-          ))}
-          <a
-            href="#contact"
-            className="text-center bg-gradient-to-r from-blue-500 to-violet-500 text-white text-sm font-semibold px-5 py-2.5 rounded-lg"
+      {/* Mobile menu with smooth animation */}
+      <motion.div
+        className="absolute top-full left-0 right-0 md:hidden border-b border-white/[0.08] py-6 px-6 flex flex-col gap-3 relative z-10"
+        style={{
+          background: "rgba(15,23,42,0.95)",
+          backdropFilter: "blur(20px)",
+          pointerEvents: mobileOpen ? "auto" : "none",
+        }}
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: mobileOpen ? 1 : 0, y: mobileOpen ? 0 : -20 }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
+      >
+        {links.map((link, i) => (
+          <motion.a
+            key={link.href}
+            href={link.href}
+            className="text-slate-300 text-sm py-3 px-3 rounded-lg hover:text-white hover:bg-white/5 transition-all duration-300"
             onClick={() => setMobileOpen(false)}
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: mobileOpen ? 1 : 0, x: mobileOpen ? 0 : -20 }}
+            transition={{ delay: mobileOpen ? i * 0.06 : 0 }}
+            whileHover={{ x: 4 }}
           >
-            Hire Me
-          </a>
-        </div>
-      )}
-    </nav>
+            {link.label}
+          </motion.a>
+        ))}
+        <motion.a
+          href="#contact"
+          className="text-center text-white text-sm font-semibold px-6 py-3 rounded-lg mt-2"
+          style={{
+            background: "linear-gradient(135deg, #3b82f6, #8b5cf6)",
+          }}
+          onClick={() => setMobileOpen(false)}
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: mobileOpen ? 1 : 0, x: mobileOpen ? 0 : -20 }}
+          transition={{ delay: mobileOpen ? 0.24 : 0 }}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+        >
+          Hire Me
+        </motion.a>
+      </motion.div>
+    </motion.nav>
   );
 }

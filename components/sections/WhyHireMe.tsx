@@ -54,39 +54,57 @@ export default function WhyHireMe() {
             {cards.map((card, idx) => (
               <motion.div
                 key={card.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: idx * 0.1 }}
+                initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ delay: idx * 0.12, duration: 0.6, ease: "easeOut" }}
                 viewport={{ once: true }}
-                className="relative rounded-2xl p-8 overflow-hidden transition-all duration-300 hover:-translate-y-3 hover:shadow-2xl group cursor-default"
+                className="relative rounded-2xl p-8 overflow-hidden transition-all duration-500 group cursor-default"
                 style={{
-                  background: "rgba(255,255,255,0.04)",
-                  border: "1px solid rgba(255,255,255,0.08)",
+                  background: "linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01))",
+                  border: "1.5px solid rgba(255,255,255,0.08)",
                   backdropFilter: "blur(20px)",
                 }}
+                whileHover={{ scale: 1.04, y: -8 }}
               >
                 {/* Animated gradient background on hover */}
                 <motion.div
-                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-500"
                   style={{
-                    background: `linear-gradient(135deg, ${card.gradStart}15, ${card.gradEnd}15)`,
+                    background: `linear-gradient(135deg, ${card.gradStart}20, ${card.gradEnd}20)`,
                   }}
-                  animate={{ backgroundPosition: ["0% 0%", "100% 100%"] }}
-                  transition={{ duration: 3, repeat: Infinity }}
+                  animate={{
+                    backgroundPosition: ["0% 0%", "100% 100%", "0% 0%"],
+                  }}
+                  transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
                 />
 
-                {/* Top accent bar */}
+                {/* Animated top accent bar */}
                 <motion.div
-                  className="absolute top-0 left-0 right-0 h-[3px]"
+                  className="absolute top-0 left-0 right-0 h-[2px]"
                   style={{
                     background: `linear-gradient(90deg, ${card.gradStart}, ${card.gradEnd})`,
                   }}
-                  animate={{ x: ["-100%", "100%"] }}
-                  transition={{ duration: 2, repeat: Infinity }}
+                  animate={{
+                    scaleX: [0, 1, 0],
+                    opacity: [0, 1, 0],
+                  }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    repeatDelay: 1,
+                    ease: "easeInOut",
+                  }}
                 />
 
-                {/* Stats badge */}
-                <div className="absolute top-4 right-4 text-right">
+                {/* Premium stats badge */}
+                <motion.div
+                  className="absolute top-6 right-6 text-right p-3 rounded-xl backdrop-blur-md transition-all duration-300"
+                  style={{
+                    background: `linear-gradient(135deg, ${card.gradStart}15, ${card.gradEnd}10)`,
+                    border: `1px solid ${card.gradStart}30`,
+                  }}
+                  whileHover={{ scale: 1.05, y: -2 }}
+                >
                   <motion.div
                     className="text-sm font-black"
                     style={{
@@ -96,33 +114,81 @@ export default function WhyHireMe() {
                       backgroundClip: "text",
                       fontFamily: "var(--font-syne)",
                     }}
-                    animate={{ scale: [1, 1.05, 1] }}
-                    transition={{ duration: 2, repeat: Infinity }}
+                    animate={{ scale: [1, 1.08, 1] }}
+                    transition={{
+                      duration: 2.5,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                    }}
                   >
                     {card.stats}
                   </motion.div>
-                  <p className="text-xs text-slate-500 mt-0.5">{card.label}</p>
-                </div>
+                  <motion.p
+                    className="text-xs text-slate-500 mt-1 font-medium"
+                    whileHover={{ color: "#cbd5e1" }}
+                  >
+                    {card.label}
+                  </motion.p>
+                </motion.div>
 
-                {/* Icon with glow */}
+                {/* Icon with premium glow */}
                 <motion.div
-                  className="w-12 h-12 rounded-xl flex items-center justify-center text-xl mb-5 relative z-10 group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300"
-                  style={{ background: card.iconBg }}
-                  animate={{ y: [0, -3, 0] }}
-                  transition={{ duration: 3, repeat: Infinity }}
+                  className="w-14 h-14 rounded-xl flex items-center justify-center text-2xl mb-6 relative z-10 transition-all duration-500"
+                  style={{
+                    background: card.iconBg,
+                    boxShadow: `inset 0 0 0 1px ${card.gradStart}40`,
+                  }}
+                  whileHover={{ scale: 1.25, rotate: 12 }}
+                  animate={{
+                    y: [0, -6, 0],
+                  }}
+                  transition={{
+                    y: {
+                      duration: 4,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                      delay: idx * 0.3,
+                    },
+                    hover: { duration: 0.3 },
+                  }}
                 >
                   {card.icon}
                 </motion.div>
 
-                <h3
-                  className="font-bold text-xl text-slate-100 mb-3 relative z-10"
+                {/* Title with hover effect */}
+                <motion.h3
+                  className="font-bold text-xl text-slate-100 mb-4 relative z-10 group-hover:text-white transition-colors"
                   style={{ fontFamily: "var(--font-syne)" }}
+                  whileHover={{ letterSpacing: "0.05em" }}
                 >
                   {card.title}
-                </h3>
-                <p className="text-slate-400 text-sm leading-relaxed relative z-10">
+                </motion.h3>
+
+                {/* Description with better typography */}
+                <motion.p
+                  className="text-slate-400 text-sm leading-relaxed relative z-10 group-hover:text-slate-300 transition-colors text-pretty"
+                  initial={{ opacity: 0.9 }}
+                  whileHover={{ opacity: 1 }}
+                >
                   {card.desc}
-                </p>
+                </motion.p>
+
+                {/* Decorative corner accent */}
+                <motion.div
+                  className="absolute bottom-0 right-0 w-20 h-20 opacity-5 rounded-full blur-2xl pointer-events-none"
+                  style={{
+                    background: `linear-gradient(135deg, ${card.gradStart}, ${card.gradEnd})`,
+                  }}
+                  animate={{
+                    scale: [1, 1.3, 1],
+                  }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: idx * 0.4,
+                  }}
+                />
               </motion.div>
             ))}
           </div>
