@@ -1,5 +1,6 @@
 "use client";
 
+import { motion } from "framer-motion";
 import SectionReveal from "@/components/ui/SectionReveal";
 import { ExternalLink } from "lucide-react";
 
@@ -100,8 +101,8 @@ export default function CodingProfiles() {
 
         <SectionReveal delay={0.1}>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-            {profiles.map((profile) => (
-              <a
+            {profiles.map((profile, idx) => (
+              <motion.a
                 key={profile.name}
                 href={profile.href}
                 target="_blank"
@@ -109,65 +110,106 @@ export default function CodingProfiles() {
                 aria-label={`Visit ${profile.name} profile`}
                 className="group relative flex flex-col items-center gap-3 p-6 rounded-2xl text-center
                 transition-all duration-500 ease-out
-                hover:-translate-y-3 hover:scale-[1.04]
-                overflow-hidden"
+                overflow-hidden cursor-pointer"
                 style={{
-                  background: "rgba(255,255,255,0.04)",
-                  border: `1px solid ${profile.border}`,
+                  background: "linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02))",
+                  border: `1.5px solid ${profile.border}`,
                   backdropFilter: "blur(20px)",
                 }}
+                initial={{ opacity: 0, y: 20, scale: 0.9 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: idx * 0.08, duration: 0.5, ease: "easeOut" }}
+                whileHover={{ scale: 1.08, y: -6 }}
+                whileTap={{ scale: 0.95 }}
               >
-                {/* gradient hover overlay */}
-                <div
-                  className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-500"
+                {/* Animated gradient background on hover */}
+                <motion.div
+                  className="absolute inset-0 opacity-0 group-hover:opacity-15 transition-opacity duration-500"
                   style={{
                     background: `linear-gradient(135deg, ${profile.gradStart}, ${profile.gradEnd})`,
                   }}
+                  animate={{
+                    backgroundPosition: ["0% 0%", "100% 100%", "0% 0%"],
+                  }}
+                  transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
                 />
 
-                {/* glow */}
-                <div
-                  className="pointer-events-none absolute -inset-[1px] rounded-2xl opacity-0 blur-xl transition-opacity duration-500 group-hover:opacity-100"
-                  style={{ background: profile.glow }}
+                {/* Premium glow effect */}
+                <motion.div
+                  className="pointer-events-none absolute -inset-[1px] rounded-2xl opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100"
+                  style={{
+                    background: profile.glow,
+                  }}
+                  animate={{
+                    boxShadow: [
+                      `0 0 30px ${profile.glow}`,
+                      `0 0 50px ${profile.glow}`,
+                      `0 0 30px ${profile.glow}`,
+                    ],
+                  }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    repeatType: "reverse",
+                  }}
                 />
 
-                {/* icon */}
-                <div
-                  className="w-14 h-14 rounded-xl flex items-center justify-center relative z-10
-                  transition-all duration-500
-                  group-hover:scale-110 group-hover:rotate-3"
+                {/* Icon with enhanced animations */}
+                <motion.div
+                  className="w-14 h-14 rounded-xl flex items-center justify-center relative z-10 transition-all duration-500"
                   style={{
                     background: profile.color,
-                    boxShadow:
-                      "inset 0 0 0 1px rgba(255,255,255,0.05)",
+                    boxShadow: "inset 0 0 0 1.5px rgba(255,255,255,0.08)",
+                  }}
+                  whileHover={{ scale: 1.15, rotate: 8 }}
+                  animate={{
+                    y: [0, -4, 0],
+                  }}
+                  transition={{
+                    y: {
+                      duration: 3,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                      delay: idx * 0.2,
+                    },
+                    hover: { duration: 0.3 },
                   }}
                 >
-                  <img
+                  <motion.img
                     src={profile.logo}
                     alt={profile.name}
-                    className="w-7 h-7 object-contain transition-transform duration-500 group-hover:scale-110"
+                    className="w-7 h-7 object-contain transition-transform duration-500"
+                    whileHover={{ scale: 1.2, rotate: 12 }}
                   />
-                </div>
+                </motion.div>
 
-                {/* 🔥 TEXT WRAPPER (new) */}
-                <div className="relative z-10 transition-transform duration-500 group-hover:-translate-y-0.5">
-                  <div
+                {/* Text with stagger animation */}
+                <div className="relative z-10 transition-transform duration-500 group-hover:-translate-y-1">
+                  <motion.div
                     className="font-bold text-base text-slate-200 transition-colors duration-300 group-hover:text-white"
                     style={{ fontFamily: "var(--font-syne)" }}
+                    whileHover={{ letterSpacing: "0.05em" }}
                   >
                     {profile.name}
-                  </div>
+                  </motion.div>
 
-                  <div className="text-xs text-slate-500 transition-all duration-300 group-hover:text-slate-200">
+                  <motion.div
+                    className="text-xs text-slate-500 transition-all duration-300 group-hover:text-slate-200 mt-1 text-pretty"
+                    whileHover={{ opacity: 1 }}
+                  >
                     {profile.desc}
-                  </div>
+                  </motion.div>
                 </div>
 
-                <ExternalLink
-                  size={14}
-                  className="relative z-10 text-slate-600 transition-all duration-300 group-hover:text-white group-hover:scale-110"
-                />
-              </a>
+                <motion.div
+                  className="relative z-10 text-slate-600 transition-all duration-300 group-hover:text-white mt-2"
+                  whileHover={{ scale: 1.3, rotate: 45 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <ExternalLink size={16} />
+                </motion.div>
+              </motion.a>
             ))}
           </div>
         </SectionReveal>
