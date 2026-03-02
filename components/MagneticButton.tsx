@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useEffect, ReactNode } from "react";
+import React, { useRef, useEffect, ReactNode, ForwardedRef } from "react";
 
 interface MagneticButtonProps {
   children: ReactNode;
@@ -21,7 +21,7 @@ export default function MagneticButton({
   className = "",
   ...props
 }: MagneticButtonProps) {
-  const buttonRef = useRef<HTMLElement>(null);
+  const buttonRef = useRef<HTMLButtonElement & HTMLAnchorElement>(null);
   const magnetRef = useRef({ x: 0, y: 0, targetX: 0, targetY: 0 });
 
   useEffect(() => {
@@ -86,7 +86,7 @@ export default function MagneticButton({
 
   return (
     <Tag
-      ref={buttonRef}
+      ref={buttonRef as any}
       className={`inline-flex items-center justify-center transition-all duration-300 ${className}`}
       style={{ willChange: "transform" }}
       {...props}
