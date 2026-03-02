@@ -127,11 +127,11 @@ export default function Navbar() {
         style={{
           background: "rgba(15,23,42,0.95)",
           backdropFilter: "blur(20px)",
+          pointerEvents: mobileOpen ? "auto" : "none",
         }}
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: mobileOpen ? 1 : 0, y: mobileOpen ? 0 : -20 }}
         transition={{ duration: 0.3, ease: "easeOut" }}
-        pointerEvents={mobileOpen ? "auto" : "none"}
       >
         {links.map((link, i) => (
           <motion.a
