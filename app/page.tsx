@@ -2,9 +2,7 @@ import Navbar from "@/components/Navbar";
 import BackgroundBlobs from "@/components/BackgroundBlobs";
 import BrandRevealLoader from "@/components/BrandRevealLoader";
 import CustomCursor from "@/components/CustomCursor";
-import MouseSpotlight from "@/components/MouseSpotlight";
 import ScrollProgress from "@/components/ScrollProgress";
-import CinematicSpotlight from "@/components/CinematicSpotlight";
 import Hero from "@/components/sections/Hero";
 import About from "@/components/sections/About";
 import CodingProfiles from "@/components/sections/CodingProfiles";
@@ -20,9 +18,7 @@ export default function Home() {
     <main>
       <BrandRevealLoader />
       <CustomCursor />
-      <MouseSpotlight />
       <ScrollProgress />
-      <CinematicSpotlight />
       <BackgroundBlobs />
       <Navbar />
       <Hero />

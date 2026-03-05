@@ -4,8 +4,6 @@ import gsap from "gsap";
 
 export default function BrandRevealLoader() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const svgRef = useRef<SVGSVGElement>(null);
-  const textRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -23,68 +21,81 @@ export default function BrandRevealLoader() {
         },
       });
 
-      // Phase 1: Line draws (0-1.5s)
-      const path = document.querySelector(".brand-line") as SVGPathElement;
-      if (path) {
-        const length = path.getTotalLength();
-        path.style.strokeDasharray = String(length);
-        path.style.strokeDashoffset = String(length);
+      // Phase 1: Ribbon line draws (0-1.2s)
+      const ribbonPath = document.querySelector(".ribbon-line") as SVGPathElement;
+      if (ribbonPath) {
+        const length = ribbonPath.getTotalLength();
+        ribbonPath.style.strokeDasharray = String(length);
+        ribbonPath.style.strokeDashoffset = String(length);
 
         tl.to(
-          path,
+          ribbonPath,
           {
             strokeDashoffset: 0,
-            duration: 1.5,
+            duration: 1.2,
             ease: "power1.inOut",
-          },
-          0
-        );
-
-        // Glow effect during drawing
-        tl.to(
-          ".line-glow",
-          {
-            opacity: [0, 1, 0],
-            blur: [0, 20, 0],
-            duration: 1.5,
           },
           0
         );
       }
 
-      // Phase 2: Line morphs to M (1.2-2s)
-      tl.to(
-        ".brand-line",
-        {
-          opacity: 0,
-          duration: 0.4,
-          ease: "power2.in",
-        },
-        1.2
-      );
+      // Phase 2: Ribbon transforms to M path (1.2-1.8s)
+      const mPath = document.querySelector(".m-path") as SVGPathElement;
+      if (mPath && ribbonPath) {
+        tl.to(
+          ribbonPath,
+          {
+            opacity: 0,
+            duration: 0.3,
+          },
+          1.2
+        );
 
-      tl.to(
-        ".letter-m",
-        {
-          opacity: 1,
-          scale: 1,
-          duration: 0.6,
-          ease: "back.out",
-        },
-        1.2
-      );
+        const mLength = mPath.getTotalLength();
+        mPath.style.strokeDasharray = String(mLength);
+        mPath.style.strokeDashoffset = String(mLength);
 
-      // Phase 3: M expands to full text (2-2.8s)
-      tl.to(
-        ".letter-m",
-        {
-          opacity: 0,
-          scale: 0.5,
-          duration: 0.3,
-        },
-        1.8
-      );
+        tl.to(
+          mPath,
+          {
+            opacity: 1,
+            strokeDashoffset: 0,
+            duration: 0.6,
+            ease: "power1.inOut",
+          },
+          1.2
+        );
+      }
 
+      // Phase 3: M path transitions to full text drawing (1.8-2.8s)
+      const textPath = document.querySelector(".text-path") as SVGPathElement;
+      if (textPath && mPath) {
+        tl.to(
+          mPath,
+          {
+            opacity: 0,
+            duration: 0.2,
+          },
+          1.8
+        );
+
+        const textLength = textPath.getTotalLength();
+        textPath.style.strokeDasharray = String(textLength);
+        textPath.style.strokeDashoffset = String(textLength);
+
+        tl.to(
+          textPath,
+          {
+            opacity: 1,
+            strokeDashoffset: 0,
+            duration: 1,
+            ease: "power1.inOut",
+          },
+          1.8
+        );
+      }
+
+      // Phase 4: Full name and subtitle appear (2.6-3.2s)
       tl.to(
         ".full-name",
         {
@@ -93,10 +104,10 @@ export default function BrandRevealLoader() {
           duration: 0.6,
           ease: "back.out",
         },
-        1.8
+        2.6
       );
 
-      // Phase 4: Content fades in (2.4-3.2s)
+      // Phase 5: Content fades in (2.8-3.6s)
       tl.to(
         contentRef.current,
         {
@@ -104,7 +115,7 @@ export default function BrandRevealLoader() {
           duration: 0.8,
           ease: "power2.out",
         },
-        2.4
+        2.8
       );
     });
 
@@ -121,38 +132,53 @@ export default function BrandRevealLoader() {
 
       {/* Main loader content */}
       <div className="relative z-10 flex flex-col items-center gap-8">
-        {/* SVG Container - Line Drawing */}
-        <div className="relative w-96 h-32 flex items-center justify-center">
-          {/* Glow effect */}
-          <div
-            className="line-glow absolute inset-0 opacity-0 blur-[20px] pointer-events-none"
-            style={{
-              background: "radial-gradient(circle at center, rgba(59,130,246,0.8), transparent)",
-            }}
-          />
-
-          {/* SVG Path */}
+        {/* SVG Container - Continuous Ribbon Drawing */}
+        <div className="relative w-full max-w-2xl h-64 flex items-center justify-center">
           <svg
-            ref={svgRef}
-            viewBox="0 0 400 80"
-            className="w-full h-full relative z-10"
+            viewBox="0 0 800 200"
+            className="w-full h-full"
             preserveAspectRatio="xMidYMid meet"
           >
-            {/* Main line that will morph */}
+            {/* Phase 1: Initial ribbon line */}
             <path
-              className="brand-line"
-              d="M 20 40 Q 60 20, 100 40 T 180 40 Q 220 20, 260 40 T 340 40"
-              stroke="url(#brandGradient)"
-              strokeWidth="2.5"
+              className="ribbon-line"
+              d="M 50 100 Q 100 50, 150 100 T 250 100 Q 300 50, 350 100 T 450 100 Q 500 50, 550 100 T 650 100 Q 700 50, 750 100"
+              stroke="url(#ribbonGradient)"
+              strokeWidth="3"
               fill="none"
               strokeLinecap="round"
               strokeLinejoin="round"
+              opacity="1"
+            />
+
+            {/* Phase 2: M path - ribbon morphs to M */}
+            <path
+              className="m-path"
+              d="M 200 80 L 200 150 M 200 80 L 250 150 L 300 80 M 300 80 L 300 150"
+              stroke="url(#ribbonGradient)"
+              strokeWidth="3"
+              fill="none"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              opacity="0"
+            />
+
+            {/* Phase 3: Full text path - "Mohan Sharma" drawn as ribbon */}
+            <path
+              className="text-path"
+              d="M 100 100 L 100 130 M 100 100 L 130 130 L 160 100 M 160 100 L 160 130 M 180 115 L 210 115 Q 225 115, 225 100 Q 225 85, 210 85 L 180 85 L 180 130 M 250 130 L 280 85 M 280 85 L 310 130 M 320 85 L 350 85 Q 365 85, 365 100 L 365 130 M 365 130 L 350 130 M 350 130 Q 365 130, 365 115 M 390 130 L 420 85 M 420 85 L 450 130 M 460 85 L 490 85 L 490 130 L 460 130 M 510 130 L 540 85 M 540 85 L 570 130 M 590 130 Q 590 85, 620 85 Q 650 85, 650 130 M 650 85 L 650 130"
+              stroke="url(#ribbonGradient)"
+              strokeWidth="3"
+              fill="none"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              opacity="0"
             />
 
             {/* Gradient definition */}
             <defs>
               <linearGradient
-                id="brandGradient"
+                id="ribbonGradient"
                 x1="0%"
                 y1="0%"
                 x2="100%"
@@ -166,20 +192,10 @@ export default function BrandRevealLoader() {
           </svg>
         </div>
 
-        {/* Letter M - Large single letter */}
-        <div className="letter-m opacity-0 scale-0 mb-4">
+        {/* Full Name and Subtitle - appears after drawing completes */}
+        <div className="full-name opacity-0 translate-y-8 text-center">
           <h1
-            className="text-9xl font-black bg-gradient-to-r from-blue-400 via-violet-400 to-pink-400 bg-clip-text text-transparent"
-            style={{ fontFamily: "var(--font-syne)" }}
-          >
-            M
-          </h1>
-        </div>
-
-        {/* Full Name - appears after M */}
-        <div ref={textRef} className="full-name opacity-0 translate-y-8">
-          <h1
-            className="text-5xl font-black bg-gradient-to-r from-blue-400 via-violet-400 to-pink-400 bg-clip-text text-transparent text-center"
+            className="text-5xl font-black bg-gradient-to-r from-blue-400 via-violet-400 to-pink-400 bg-clip-text text-transparent"
             style={{ fontFamily: "var(--font-syne)", letterSpacing: "-0.02em" }}
           >
             Mohan Sharma
@@ -194,7 +210,7 @@ export default function BrandRevealLoader() {
           <div
             className="h-full bg-gradient-to-r from-blue-500 via-violet-500 to-pink-500"
             style={{
-              animation: "growWidth 2.8s ease-in-out forwards",
+              animation: "growWidth 3.4s ease-in-out forwards",
             }}
           />
         </div>
