@@ -3,9 +3,9 @@ import { motion } from "framer-motion";
 import SectionReveal from "@/components/ui/SectionReveal";
 
 const stats = [
-  { num: "3+", label: "Years Experience" },
+  { num: "3.2+", label: "Years Experience" },
   { num: "20+", label: "Projects Built" },
-  { num: "900+", label: "LeetCode Solved" },
+  { num: "1K+", label: "LeetCode Solved" },
   { num: "∞", label: "Continuous Learner" },
 ];
 
@@ -30,7 +30,7 @@ export default function About() {
                 transition={{ delay: 0.1, duration: 0.6 }}
                 className="text-slate-300"
               >
-                I&apos;m a Full Stack Developer with 3+ years of building
+                I&apos;m a Full Stack Developer with 3.2+ years of building
                 scalable, production-grade web applications at the intersection
                 of clean engineering and intuitive product design.
               </motion.p>
@@ -54,7 +54,7 @@ export default function About() {
                 viewport={{ once: true }}
                 transition={{ delay: 0.3, duration: 0.6 }}
               >
-                900+ LeetCode problems solved — not just for interviews, but
+                1K+ LeetCode problems solved — not just for interviews, but
                 because algorithmic thinking makes me a better engineer every
                 single day.
               </motion.p>
