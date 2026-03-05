@@ -1,6 +1,5 @@
 "use client";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { motion } from "framer-motion";
 import { ArrowRight, MessageCircle, Download, ChevronDown } from "lucide-react";
 
 const badges = [
@@ -17,17 +16,11 @@ const floatingElements = [
 ];
 
 export default function Hero() {
-  const ref = useRef(null);
-  const { scrollY } = useScroll();
-  const y = useTransform(scrollY, [0, 500], [0, 150]);
-  const opacity = useTransform(scrollY, [0, 300], [1, 0.3]);
-
   return (
     <section
       id="hero"
       className="relative z-10 min-h-screen flex items-center pt-20 overflow-hidden"
       aria-label="Hero section"
-      ref={ref}
     >
       {/* Premium animated background */}
       <motion.div
@@ -78,10 +71,7 @@ export default function Hero() {
         backgroundSize: '50px 50px'
       }} />
 
-      <motion.div
-        className="max-w-5xl mx-auto px-6 py-24 relative z-10"
-        style={{ opacity }}
-      >
+      <motion.div className="max-w-5xl mx-auto px-6 py-24 relative z-10">
         {/* Badges with enhanced stagger */}
         <div className="flex flex-wrap gap-3 mb-6">
           {badges.map((badge, i) => (
@@ -134,7 +124,6 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.8, ease: "easeOut" }}
           style={{
-            y,
             fontFamily: "var(--font-syne)",
             fontSize: "clamp(3.5rem, 9vw, 7.5rem)",
           }}
