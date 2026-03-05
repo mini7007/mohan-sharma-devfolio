@@ -1,8 +1,19 @@
 "use client";
-import { useState } from "react";
+
+import { FormEvent, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import emailjs from "@emailjs/browser";
 import SectionReveal from "@/components/ui/SectionReveal";
-import { Mail, Linkedin, Github, CheckCircle, ArrowRight } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import {
+  Mail,
+  Linkedin,
+  Github,
+  CheckCircle,
+  ArrowRight,
+  X,
+  Loader2,
+} from "lucide-react";
 
 const EMAIL = "mohan5050390@gmail.com";
 
@@ -34,48 +45,155 @@ const contacts = [
     href: "https://github.com/mini7007",
     copyable: false,
   },
-];
+] as const;
+
+const messageTemplate = (name: string) => `Hi Mohan,
+
+I came across your portfolio and would like to discuss a potential project.
+
+Project Details:
+Company:
+Project Type:
+Timeline:
+Budget:
+
+Looking forward to collaborating!
+
+Best,
+${name || "{Name}"}`;
 
 export default function Contact() {
   const [copied, setCopied] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSending, setIsSending] = useState(false);
+  const [sent, setSent] = useState(false);
+  const { toast, toasts, dismiss } = useToast();
+
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    subject: "Let's Build Together",
+    message: messageTemplate(""),
+  });
+
+  const emailConfigMissing = useMemo(
+    () =>
+      !process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID ||
+      !process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY,
+    []
+  );
 
   const copyEmail = async () => {
     try {
       await navigator.clipboard.writeText(EMAIL);
       setCopied(true);
       setTimeout(() => setCopied(false), 2500);
-    } catch (_) {
-      // fallback: ignore
+    } catch {
+      // no-op
+    }
+  };
+
+  const openModal = () => {
+    setIsModalOpen(true);
+    setSent(false);
+    setFormData((prev) => ({
+      ...prev,
+      message: prev.message.trim() ? prev.message : messageTemplate(prev.name),
+    }));
+  };
+
+  const closeModal = () => {
+    if (!isSending) {
+      setIsModalOpen(false);
+    }
+  };
+
+  const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (emailConfigMissing) {
+      toast({
+        title: "Email configuration missing",
+        description:
+          "Add NEXT_PUBLIC_EMAILJS_TEMPLATE_ID and NEXT_PUBLIC_EMAILJS_PUBLIC_KEY to your environment.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsSending(true);
+    setSent(false);
+
+    toast({
+      title: "Sending email",
+      description: "Please wait while your message is being delivered.",
+    });
+
+    try {
+      await emailjs.send(
+        "service_6i9lozl",
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID as string,
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          subject: formData.subject,
+          message: formData.message,
+        },
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY as string
+      );
+
+      setSent(true);
+      toast({
+        title: "Email sent successfully",
+        description: "Thanks for reaching out — I'll get back to you soon.",
+        variant: "success",
+      });
+
+      setFormData({
+        name: "",
+        email: "",
+        subject: "Let's Build Together",
+        message: messageTemplate(""),
+      });
+    } catch {
+      toast({
+        title: "Failed to send email",
+        description: "Please try again in a moment or use direct email.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSending(false);
     }
   };
 
   return (
-    <section
-      id="contact"
-      className="relative z-10 border-t border-white/[0.06]"
-    >
+    <section id="contact" className="relative z-10 border-t border-white/[0.06]">
       <div className="max-w-5xl mx-auto px-6 py-24">
-        {/* Header */}
         <SectionReveal>
           <p className="section-label text-center">Get In Touch</p>
           <h2 className="section-title text-center">
             Let&apos;s <span className="grad-text">Connect</span>
           </h2>
           <p className="text-slate-400 text-center max-w-2xl mx-auto mb-16 text-sm leading-relaxed">
-            I'm always interested in hearing about new projects and opportunities. Whether you're looking for a developer to join your team, have a freelance project, or just want to chat — feel free to reach out.
+            I&apos;m always interested in hearing about new projects and opportunities. Whether you&apos;re looking for a developer to join your team, have a freelance project, or just want to chat — feel free to reach out.
           </p>
         </SectionReveal>
 
-        {/* Contact Cards */}
         <SectionReveal delay={0.1}>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 mb-12">
             {contacts.map((c, idx) => {
               const handleCardInteraction = () => {
+                if (c.label === "Email") {
+                  openModal();
+                  return;
+                }
+
                 if (c.copyable) {
                   copyEmail();
-                } else {
-                  window.open(c.href, "_blank");
+                  return;
                 }
+
+                window.open(c.href, "_blank", "noopener,noreferrer");
               };
 
               return (
@@ -84,8 +202,9 @@ export default function Contact() {
                   onClick={handleCardInteraction}
                   className="group relative p-6 sm:p-7 rounded-2xl transition-all duration-500 text-left cursor-pointer backdrop-blur-sm overflow-hidden"
                   style={{
-                    background: "linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01))",
-                    border: `1.5px solid rgba(255,255,255,0.08)`,
+                    background:
+                      "linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01))",
+                    border: "1.5px solid rgba(255,255,255,0.08)",
                     WebkitTapHighlightColor: "transparent",
                   }}
                   initial={{ opacity: 0, y: 20, scale: 0.95 }}
@@ -95,7 +214,6 @@ export default function Contact() {
                   whileHover={{ scale: 1.05, y: -4 }}
                   whileTap={{ scale: 0.98 }}
                 >
-                  {/* Animated gradient border */}
                   <motion.div
                     className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
                     style={{
@@ -103,7 +221,6 @@ export default function Contact() {
                     }}
                   />
 
-                  {/* Glow effect on hover */}
                   <motion.div
                     className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-30 transition-opacity duration-500 pointer-events-none"
                     style={{
@@ -111,7 +228,6 @@ export default function Contact() {
                     }}
                   />
 
-                  {/* Content */}
                   <div className="relative z-10">
                     <motion.div
                       className="w-16 h-16 rounded-xl flex items-center justify-center mb-4 transition-all duration-300"
@@ -124,7 +240,12 @@ export default function Contact() {
                     >
                       <motion.div
                         animate={{ rotate: [0, 5, -5, 0] }}
-                        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: idx * 0.3 }}
+                        transition={{
+                          duration: 4,
+                          repeat: Infinity,
+                          ease: "easeInOut",
+                          delay: idx * 0.3,
+                        }}
                       >
                         <c.Icon size={28} style={{ color: c.color }} />
                       </motion.div>
@@ -157,51 +278,34 @@ export default function Contact() {
           </div>
         </SectionReveal>
 
-        {/* CTA Section */}
         <SectionReveal delay={0.2}>
           <div className="flex flex-col items-center gap-8 py-12">
-            <motion.a
-              href={`mailto:${EMAIL}`}
+            <motion.button
+              onClick={openModal}
               className="group relative inline-flex items-center gap-2 px-10 py-5 rounded-xl font-semibold text-white overflow-hidden transition-all duration-300"
               style={{
                 background: "linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899)",
               }}
               whileHover={{ scale: 1.05, y: -4 }}
               whileTap={{ scale: 0.98 }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.boxShadow =
-                  "0 25px 50px rgba(139, 92, 246, 0.5)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.boxShadow =
-                  "0 15px 35px rgba(139, 92, 246, 0.3)";
-              }}
             >
-              {/* Animated background shine */}
               <motion.div
                 className="absolute inset-0 opacity-0 group-hover:opacity-40 transition-opacity duration-300"
                 style={{
-                  background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent)",
+                  background:
+                    "linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent)",
                   transform: "translateX(-100%)",
                 }}
                 animate={{
                   transform: ["translateX(-100%)", "translateX(100%)"],
                 }}
-                transition={{
-                  duration: 2,
-                  repeat: Infinity,
-                  repeatDelay: 1,
-                }}
+                transition={{ duration: 2, repeat: Infinity, repeatDelay: 1 }}
               />
               <span className="relative z-10">Send Me an Email</span>
-              <motion.div
-                className="relative z-10"
-                whileHover={{ x: 4 }}
-                transition={{ duration: 0.2 }}
-              >
+              <motion.div className="relative z-10" whileHover={{ x: 4 }} transition={{ duration: 0.2 }}>
                 <ArrowRight size={18} />
               </motion.div>
-            </motion.a>
+            </motion.button>
 
             <AnimatePresence mode="wait">
               {copied && (
@@ -212,10 +316,7 @@ export default function Contact() {
                   transition={{ duration: 0.3 }}
                   className="inline-flex items-center gap-2 text-emerald-400 text-sm font-medium"
                 >
-                  <motion.div
-                    animate={{ rotate: [0, 360] }}
-                    transition={{ duration: 0.6 }}
-                  >
+                  <motion.div animate={{ rotate: [0, 360] }} transition={{ duration: 0.6 }}>
                     <CheckCircle size={18} />
                   </motion.div>
                   Email copied to clipboard!
@@ -236,19 +337,163 @@ export default function Contact() {
         </SectionReveal>
       </div>
 
-      {/* Keyframe animation */}
-      <style>{`
-        @keyframes slideUp {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-      `}</style>
+      <AnimatePresence>
+        {isModalOpen && (
+          <motion.div
+            className="fixed inset-0 z-[70] flex items-center justify-center p-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.button
+              aria-label="Close contact form"
+              className="absolute inset-0 bg-slate-950/75 backdrop-blur-sm"
+              onClick={closeModal}
+            />
+
+            <motion.div
+              initial={{ opacity: 0, y: 24, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 16, scale: 0.96 }}
+              transition={{ type: "spring", stiffness: 230, damping: 22 }}
+              className="relative w-full max-w-xl rounded-2xl border border-white/10 bg-white/[0.06] backdrop-blur-xl p-5 sm:p-7 shadow-[0_20px_60px_rgba(59,130,246,0.18)]"
+            >
+              <button
+                onClick={closeModal}
+                className="absolute right-4 top-4 text-slate-400 hover:text-white transition-colors"
+                aria-label="Close modal"
+              >
+                <X size={18} />
+              </button>
+
+              <motion.h3
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="text-white text-xl font-semibold mb-2"
+              >
+                Let&apos;s Build Something Great
+              </motion.h3>
+              <p className="text-slate-400 text-sm mb-6">
+                Share your idea and I&apos;ll get back within 24 hours.
+              </p>
+
+              <motion.form
+                onSubmit={onSubmit}
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.05 }}
+                className="space-y-4"
+              >
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <input
+                    required
+                    type="text"
+                    value={formData.name}
+                    onChange={(e) =>
+                      setFormData((prev) => ({ ...prev, name: e.target.value }))
+                    }
+                    placeholder="Name"
+                    className="w-full rounded-xl border border-white/10 bg-slate-900/50 px-4 py-3 text-sm text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/60"
+                  />
+                  <input
+                    required
+                    type="email"
+                    value={formData.email}
+                    onChange={(e) =>
+                      setFormData((prev) => ({ ...prev, email: e.target.value }))
+                    }
+                    placeholder="Email"
+                    className="w-full rounded-xl border border-white/10 bg-slate-900/50 px-4 py-3 text-sm text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/60"
+                  />
+                </div>
+
+                <input
+                  required
+                  type="text"
+                  value={formData.subject}
+                  onChange={(e) =>
+                    setFormData((prev) => ({ ...prev, subject: e.target.value }))
+                  }
+                  className="w-full rounded-xl border border-white/10 bg-slate-900/50 px-4 py-3 text-sm text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500/60"
+                />
+
+                <textarea
+                  required
+                  rows={11}
+                  value={formData.message}
+                  onChange={(e) =>
+                    setFormData((prev) => ({ ...prev, message: e.target.value }))
+                  }
+                  className="w-full rounded-xl border border-white/10 bg-slate-900/50 px-4 py-3 text-sm text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-pink-500/60 resize-y min-h-[220px]"
+                />
+
+                <motion.button
+                  type="submit"
+                  disabled={isSending}
+                  className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-white font-semibold transition-opacity disabled:opacity-60 disabled:cursor-not-allowed"
+                  style={{
+                    background: "linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899)",
+                  }}
+                  whileHover={isSending ? undefined : { scale: 1.02 }}
+                  whileTap={isSending ? undefined : { scale: 0.98 }}
+                >
+                  {isSending ? (
+                    <>
+                      <Loader2 className="animate-spin" size={18} /> Sending...
+                    </>
+                  ) : sent ? (
+                    <motion.span
+                      className="inline-flex items-center gap-2"
+                      initial={{ opacity: 0, y: 4 }}
+                      animate={{ opacity: 1, y: 0 }}
+                    >
+                      <CheckCircle size={18} /> Sent Successfully
+                    </motion.span>
+                  ) : (
+                    "Send Message"
+                  )}
+                </motion.button>
+              </motion.form>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <div className="fixed right-4 top-4 z-[80] space-y-2 pointer-events-none">
+        <AnimatePresence>
+          {toasts.map((toastItem) => (
+            <motion.div
+              key={toastItem.id}
+              initial={{ opacity: 0, x: 30, y: -8 }}
+              animate={{ opacity: 1, x: 0, y: 0 }}
+              exit={{ opacity: 0, x: 20 }}
+              className={`pointer-events-auto max-w-xs rounded-xl border px-4 py-3 text-sm backdrop-blur-xl ${
+                toastItem.variant === "success"
+                  ? "border-emerald-400/30 bg-emerald-500/15 text-emerald-100"
+                  : toastItem.variant === "destructive"
+                    ? "border-rose-400/30 bg-rose-500/15 text-rose-100"
+                    : "border-blue-400/30 bg-slate-900/70 text-slate-100"
+              }`}
+            >
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <p className="font-medium">{toastItem.title}</p>
+                  {toastItem.description && (
+                    <p className="mt-1 text-xs opacity-90">{toastItem.description}</p>
+                  )}
+                </div>
+                <button
+                  className="text-current/80 hover:text-current"
+                  onClick={() => dismiss(toastItem.id)}
+                  aria-label="Dismiss toast"
+                >
+                  <X size={14} />
+                </button>
+              </div>
+            </motion.div>
+          ))}
+        </AnimatePresence>
+      </div>
     </section>
   );
 }
