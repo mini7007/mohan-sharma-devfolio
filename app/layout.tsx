@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Syne, DM_Sans } from "next/font/google";
 import Script from "next/script";
+import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 
 const syne = Syne({
@@ -104,6 +105,7 @@ export default function RootLayout({
       </head>
       <body className="bg-navy overflow-x-hidden">
         {children}
+        <Toaster position="top-center" />
         <Script
           id="register-sw"
           strategy="afterInteractive"

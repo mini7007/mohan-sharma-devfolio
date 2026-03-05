@@ -1,10 +1,10 @@
 "use client";
 
-import { FormEvent, useMemo, useState } from "react";
+import { FormEvent, useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import emailjs from "@emailjs/browser";
 import SectionReveal from "@/components/ui/SectionReveal";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "@/components/ui/sonner";
 import {
   Mail,
   Linkedin,
@@ -66,8 +66,6 @@ export default function Contact() {
   const [copied, setCopied] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSending, setIsSending] = useState(false);
-  const [sent, setSent] = useState(false);
-  const { toast, toasts, dismiss } = useToast();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -95,12 +93,19 @@ export default function Contact() {
 
   const openModal = () => {
     setIsModalOpen(true);
-    setSent(false);
     setFormData((prev) => ({
       ...prev,
       message: prev.message.trim() ? prev.message : messageTemplate(prev.name),
     }));
   };
+
+  useEffect(() => {
+    document.body.style.overflow = isModalOpen ? "hidden" : "";
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isModalOpen]);
 
   const closeModal = () => {
     if (!isSending) {
@@ -112,22 +117,14 @@ export default function Contact() {
     event.preventDefault();
 
     if (emailConfigMissing) {
-      toast({
-        title: "Email configuration missing",
-        description:
-          "Add NEXT_PUBLIC_EMAILJS_TEMPLATE_ID and NEXT_PUBLIC_EMAILJS_PUBLIC_KEY to your environment.",
-        variant: "destructive",
-      });
+      toast.error(
+        "Email configuration missing. Please add NEXT_PUBLIC_EMAILJS_TEMPLATE_ID and NEXT_PUBLIC_EMAILJS_PUBLIC_KEY."
+      );
       return;
     }
 
     setIsSending(true);
-    setSent(false);
-
-    toast({
-      title: "Sending email",
-      description: "Please wait while your message is being delivered.",
-    });
+    const loadingToastId = toast.loading("Sending message...");
 
     try {
       await emailjs.send(
@@ -142,11 +139,8 @@ export default function Contact() {
         process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY as string
       );
 
-      setSent(true);
-      toast({
-        title: "Email sent successfully",
-        description: "Thanks for reaching out — I'll get back to you soon.",
-        variant: "success",
+      toast.success("Message sent successfully! I'll get back to you soon.", {
+        id: loadingToastId,
       });
 
       setFormData({
@@ -155,11 +149,13 @@ export default function Contact() {
         subject: "Let's Build Together",
         message: messageTemplate(""),
       });
+
+      setTimeout(() => {
+        setIsModalOpen(false);
+      }, 1500);
     } catch {
-      toast({
-        title: "Failed to send email",
-        description: "Please try again in a moment or use direct email.",
-        variant: "destructive",
+      toast.error("Failed to send message. Please try again.", {
+        id: loadingToastId,
       });
     } finally {
       setIsSending(false);
@@ -167,7 +163,7 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="relative z-10 border-t border-white/[0.06]">
+    <section id="contact" className="relative z-20 border-t border-white/[0.06]">
       <div className="max-w-5xl mx-auto px-6 py-24">
         <SectionReveal>
           <p className="section-label text-center">Get In Touch</p>
@@ -340,7 +336,7 @@ export default function Contact() {
       <AnimatePresence>
         {isModalOpen && (
           <motion.div
-            className="fixed inset-0 z-[70] flex items-center justify-center p-4"
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -441,14 +437,6 @@ export default function Contact() {
                     <>
                       <Loader2 className="animate-spin" size={18} /> Sending...
                     </>
-                  ) : sent ? (
-                    <motion.span
-                      className="inline-flex items-center gap-2"
-                      initial={{ opacity: 0, y: 4 }}
-                      animate={{ opacity: 1, y: 0 }}
-                    >
-                      <CheckCircle size={18} /> Sent Successfully
-                    </motion.span>
                   ) : (
                     "Send Message"
                   )}
@@ -458,42 +446,6 @@ export default function Contact() {
           </motion.div>
         )}
       </AnimatePresence>
-
-      <div className="fixed right-4 top-4 z-[80] space-y-2 pointer-events-none">
-        <AnimatePresence>
-          {toasts.map((toastItem) => (
-            <motion.div
-              key={toastItem.id}
-              initial={{ opacity: 0, x: 30, y: -8 }}
-              animate={{ opacity: 1, x: 0, y: 0 }}
-              exit={{ opacity: 0, x: 20 }}
-              className={`pointer-events-auto max-w-xs rounded-xl border px-4 py-3 text-sm backdrop-blur-xl ${
-                toastItem.variant === "success"
-                  ? "border-emerald-400/30 bg-emerald-500/15 text-emerald-100"
-                  : toastItem.variant === "destructive"
-                    ? "border-rose-400/30 bg-rose-500/15 text-rose-100"
-                    : "border-blue-400/30 bg-slate-900/70 text-slate-100"
-              }`}
-            >
-              <div className="flex items-start justify-between gap-3">
-                <div>
-                  <p className="font-medium">{toastItem.title}</p>
-                  {toastItem.description && (
-                    <p className="mt-1 text-xs opacity-90">{toastItem.description}</p>
-                  )}
-                </div>
-                <button
-                  className="text-current/80 hover:text-current"
-                  onClick={() => dismiss(toastItem.id)}
-                  aria-label="Dismiss toast"
-                >
-                  <X size={14} />
-                </button>
-              </div>
-            </motion.div>
-          ))}
-        </AnimatePresence>
-      </div>
     </section>
   );
 }
