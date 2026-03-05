@@ -15,7 +15,7 @@ import Footer from "@/components/Footer";
 
 export default function Home() {
   return (
-    <main>
+    <main className="min-h-screen pb-24">
       <BrandRevealLoader />
       <CustomCursor />
       <ScrollProgress />
