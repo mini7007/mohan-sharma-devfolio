@@ -21,7 +21,7 @@ export default function BrandRevealLoader() {
         },
       });
 
-      // Phase 1: Ribbon line draws (0-1.2s)
+      // Phase 1: Ribbon line draws (0-1.5s)
       const ribbonPath = document.querySelector(".ribbon-line") as SVGPathElement;
       if (ribbonPath) {
         const length = ribbonPath.getTotalLength();
@@ -32,54 +32,71 @@ export default function BrandRevealLoader() {
           ribbonPath,
           {
             strokeDashoffset: 0,
-            duration: 1.2,
+            duration: 1.5,
             ease: "power1.inOut",
           },
           0
         );
       }
 
-      // Phase 2: Ribbon transforms to M path (1.2-1.8s)
+      // Phase 2: Ribbon glow effect during drawing (0-1.5s)
+      tl.to(
+        ".ribbon-glow",
+        {
+          opacity: [0, 1, 0],
+          blur: [0, 15, 0],
+          duration: 1.5,
+        },
+        0
+      );
+
+      // Phase 3: M path starts drawing while ribbon is still visible, creating flow (0.9-1.5s)
       const mPath = document.querySelector(".m-path") as SVGPathElement;
       if (mPath && ribbonPath) {
-        tl.to(
-          ribbonPath,
-          {
-            opacity: 0,
-            duration: 0.3,
-          },
-          1.2
-        );
-
         const mLength = mPath.getTotalLength();
         mPath.style.strokeDasharray = String(mLength);
         mPath.style.strokeDashoffset = String(mLength);
 
+        // M starts drawing slightly before ribbon finishes
         tl.to(
           mPath,
           {
             opacity: 1,
             strokeDashoffset: 0,
-            duration: 0.6,
+            duration: 0.9,
             ease: "power1.inOut",
           },
-          1.2
+          0.9
         );
       }
 
-      // Phase 3: M fades out and full name appears (1.8-2.4s)
+      // Phase 4: Ribbon fades smoothly as M solidifies (1.4-1.8s) - overlapping
+      if (ribbonPath) {
+        tl.to(
+          ribbonPath,
+          {
+            opacity: 0,
+            duration: 0.4,
+            ease: "power2.in",
+          },
+          1.4
+        );
+      }
+
+      // Phase 5: M scales and transitions to text (1.6-2.2s) - continuous flow
       if (mPath) {
         tl.to(
           mPath,
           {
-            opacity: 0,
-            duration: 0.3,
+            scale: 0.8,
+            opacity: 0.3,
+            duration: 0.6,
           },
-          1.8
+          1.6
         );
       }
 
-      // Phase 4: Full name text appears (1.8-2.6s)
+      // Phase 6: Full name text appears behind M and grows (1.6-2.4s) - overlapping
       tl.to(
         ".full-name",
         {
@@ -88,18 +105,30 @@ export default function BrandRevealLoader() {
           duration: 0.8,
           ease: "back.out",
         },
-        1.8
+        1.6
       );
 
-      // Phase 5: Content fades in (2.6-3.4s)
+      // Phase 7: M completely fades and text dominates (2.2-2.4s)
+      if (mPath) {
+        tl.to(
+          mPath,
+          {
+            opacity: 0,
+            duration: 0.2,
+          },
+          2.2
+        );
+      }
+
+      // Phase 8: Content and portfolio fade in (2.2-3.2s) - overlapping with text
       tl.to(
         contentRef.current,
         {
           opacity: 1,
-          duration: 0.8,
+          duration: 1,
           ease: "power2.out",
         },
-        2.6
+        2.2
       );
     });
 
@@ -117,30 +146,38 @@ export default function BrandRevealLoader() {
       {/* Main loader content */}
       <div className="relative z-10 flex flex-col items-center gap-8">
         {/* SVG Container - Continuous Ribbon Drawing */}
-        <div className="relative w-full max-w-2xl h-64 flex items-center justify-center">
+        <div className="relative w-full max-w-3xl h-72 flex items-center justify-center">
+          {/* Glow effect filter */}
+          <div
+            className="ribbon-glow absolute inset-0 opacity-0 blur-[15px] pointer-events-none"
+            style={{
+              background: "radial-gradient(circle at center, rgba(59,130,246,0.6), transparent)",
+            }}
+          />
+
           <svg
             viewBox="0 0 800 200"
-            className="w-full h-full"
+            className="w-full h-full relative z-10"
             preserveAspectRatio="xMidYMid meet"
           >
-            {/* Phase 1: Initial ribbon line */}
+            {/* Phase 1: Initial ribbon line - wider for more prominence */}
             <path
               className="ribbon-line"
               d="M 50 100 Q 100 50, 150 100 T 250 100 Q 300 50, 350 100 T 450 100 Q 500 50, 550 100 T 650 100 Q 700 50, 750 100"
               stroke="url(#ribbonGradient)"
-              strokeWidth="3"
+              strokeWidth="8"
               fill="none"
               strokeLinecap="round"
               strokeLinejoin="round"
               opacity="1"
             />
 
-            {/* Phase 2: M path - ribbon morphs to M */}
+            {/* Phase 2: M path - ribbon morphs to M with wider stroke */}
             <path
               className="m-path"
               d="M 200 80 L 200 150 M 200 80 L 250 150 L 300 80 M 300 80 L 300 150"
               stroke="url(#ribbonGradient)"
-              strokeWidth="3"
+              strokeWidth="8"
               fill="none"
               strokeLinecap="round"
               strokeLinejoin="round"
