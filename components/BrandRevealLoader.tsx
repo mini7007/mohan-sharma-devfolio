@@ -67,47 +67,31 @@ export default function BrandRevealLoader() {
         );
       }
 
-      // Phase 3: M path transitions to full text drawing (1.8-2.8s)
-      const textPath = document.querySelector(".text-path") as SVGPathElement;
-      if (textPath && mPath) {
+      // Phase 3: M fades out and full name appears (1.8-2.4s)
+      if (mPath) {
         tl.to(
           mPath,
           {
             opacity: 0,
-            duration: 0.2,
-          },
-          1.8
-        );
-
-        const textLength = textPath.getTotalLength();
-        textPath.style.strokeDasharray = String(textLength);
-        textPath.style.strokeDashoffset = String(textLength);
-
-        tl.to(
-          textPath,
-          {
-            opacity: 1,
-            strokeDashoffset: 0,
-            duration: 1,
-            ease: "power1.inOut",
+            duration: 0.3,
           },
           1.8
         );
       }
 
-      // Phase 4: Full name and subtitle appear (2.6-3.2s)
+      // Phase 4: Full name text appears (1.8-2.6s)
       tl.to(
         ".full-name",
         {
           opacity: 1,
           y: 0,
-          duration: 0.6,
+          duration: 0.8,
           ease: "back.out",
         },
-        2.6
+        1.8
       );
 
-      // Phase 5: Content fades in (2.8-3.6s)
+      // Phase 5: Content fades in (2.6-3.4s)
       tl.to(
         contentRef.current,
         {
@@ -115,7 +99,7 @@ export default function BrandRevealLoader() {
           duration: 0.8,
           ease: "power2.out",
         },
-        2.8
+        2.6
       );
     });
 
@@ -155,18 +139,6 @@ export default function BrandRevealLoader() {
             <path
               className="m-path"
               d="M 200 80 L 200 150 M 200 80 L 250 150 L 300 80 M 300 80 L 300 150"
-              stroke="url(#ribbonGradient)"
-              strokeWidth="3"
-              fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              opacity="0"
-            />
-
-            {/* Phase 3: Full text path - "Mohan Sharma" drawn as ribbon */}
-            <path
-              className="text-path"
-              d="M 100 100 L 100 130 M 100 100 L 130 130 L 160 100 M 160 100 L 160 130 M 180 115 L 210 115 Q 225 115, 225 100 Q 225 85, 210 85 L 180 85 L 180 130 M 250 130 L 280 85 M 280 85 L 310 130 M 320 85 L 350 85 Q 365 85, 365 100 L 365 130 M 365 130 L 350 130 M 350 130 Q 365 130, 365 115 M 390 130 L 420 85 M 420 85 L 450 130 M 460 85 L 490 85 L 490 130 L 460 130 M 510 130 L 540 85 M 540 85 L 570 130 M 590 130 Q 590 85, 620 85 Q 650 85, 650 130 M 650 85 L 650 130"
               stroke="url(#ribbonGradient)"
               strokeWidth="3"
               fill="none"
