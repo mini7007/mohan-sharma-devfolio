@@ -21,7 +21,7 @@ export default function BrandRevealLoader() {
         },
       });
 
-      // Phase 1: Ribbon line draws (0-1.5s)
+      // Phase 1: Ribbon line draws (0-1.2s)
       const ribbonPath = document.querySelector(".ribbon-line") as SVGPathElement;
       if (ribbonPath) {
         const length = ribbonPath.getTotalLength();
@@ -32,45 +32,14 @@ export default function BrandRevealLoader() {
           ribbonPath,
           {
             strokeDashoffset: 0,
-            duration: 1.5,
+            duration: 1.2,
             ease: "power1.inOut",
           },
           0
         );
       }
 
-      // Phase 2: Ribbon glow effect during drawing (0-1.5s)
-      tl.to(
-        ".ribbon-glow",
-        {
-          opacity: [0, 1, 0],
-          blur: [0, 15, 0],
-          duration: 1.5,
-        },
-        0
-      );
-
-      // Phase 3: M path starts drawing while ribbon is still visible, creating flow (0.9-1.5s)
-      const mPath = document.querySelector(".m-path") as SVGPathElement;
-      if (mPath && ribbonPath) {
-        const mLength = mPath.getTotalLength();
-        mPath.style.strokeDasharray = String(mLength);
-        mPath.style.strokeDashoffset = String(mLength);
-
-        // M starts drawing slightly before ribbon finishes
-        tl.to(
-          mPath,
-          {
-            opacity: 1,
-            strokeDashoffset: 0,
-            duration: 0.9,
-            ease: "power1.inOut",
-          },
-          0.9
-        );
-      }
-
-      // Phase 4: Ribbon fades smoothly as M solidifies (1.4-1.8s) - overlapping
+      // Phase 2: Ribbon fades out (1.2-1.6s)
       if (ribbonPath) {
         tl.to(
           ribbonPath,
@@ -79,24 +48,43 @@ export default function BrandRevealLoader() {
             duration: 0.4,
             ease: "power2.in",
           },
-          1.4
+          1.2
         );
       }
 
-      // Phase 5: M scales and transitions to text (1.6-2.2s) - continuous flow
+      // Phase 3: M appears and draws in center (1.2-1.8s)
+      const mPath = document.querySelector(".m-path") as SVGPathElement;
+      if (mPath) {
+        const mLength = mPath.getTotalLength();
+        mPath.style.strokeDasharray = String(mLength);
+        mPath.style.strokeDashoffset = String(mLength);
+
+        tl.to(
+          mPath,
+          {
+            opacity: 1,
+            strokeDashoffset: 0,
+            duration: 0.6,
+            ease: "power1.inOut",
+          },
+          1.2
+        );
+      }
+
+      // Phase 4: M fades out (1.8-2.2s)
       if (mPath) {
         tl.to(
           mPath,
           {
-            scale: 0.8,
-            opacity: 0.3,
-            duration: 0.6,
+            opacity: 0,
+            duration: 0.4,
+            ease: "power2.in",
           },
-          1.6
+          1.8
         );
       }
 
-      // Phase 6: Full name text appears behind M and grows (1.6-2.4s) - overlapping
+      // Phase 5: Full name text appears (1.8-2.6s)
       tl.to(
         ".full-name",
         {
@@ -105,30 +93,18 @@ export default function BrandRevealLoader() {
           duration: 0.8,
           ease: "back.out",
         },
-        1.6
+        1.8
       );
 
-      // Phase 7: M completely fades and text dominates (2.2-2.4s)
-      if (mPath) {
-        tl.to(
-          mPath,
-          {
-            opacity: 0,
-            duration: 0.2,
-          },
-          2.2
-        );
-      }
-
-      // Phase 8: Content and portfolio fade in (2.2-3.2s) - overlapping with text
+      // Phase 6: Content fades in (2.6-3.4s)
       tl.to(
         contentRef.current,
         {
           opacity: 1,
-          duration: 1,
+          duration: 0.8,
           ease: "power2.out",
         },
-        2.2
+        2.6
       );
     });
 
@@ -172,10 +148,10 @@ export default function BrandRevealLoader() {
               opacity="1"
             />
 
-            {/* Phase 2: M path - ribbon morphs to M with wider stroke */}
+            {/* Phase 2: M path - ribbon morphs to M with wider stroke, centered */}
             <path
               className="m-path"
-              d="M 200 80 L 200 150 M 200 80 L 250 150 L 300 80 M 300 80 L 300 150"
+              d="M 300 60 L 300 140 M 300 60 L 350 140 L 400 60 M 400 60 L 400 140"
               stroke="url(#ribbonGradient)"
               strokeWidth="8"
               fill="none"
