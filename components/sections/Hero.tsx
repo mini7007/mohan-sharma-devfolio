@@ -19,7 +19,7 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative z-10 flex min-h-screen items-center overflow-hidden pt-20"
+      className="relative z-10 flex min-h-screen w-full items-center overflow-hidden pt-20"
       aria-label="Hero section"
     >
       {/* Premium animated background */}
@@ -32,7 +32,7 @@ export default function Hero() {
           repeat: Infinity,
           ease: "linear",
         }}
-        className="absolute inset-0 opacity-25 blur-3xl"
+        className="pointer-events-none absolute inset-0 z-0 opacity-25 blur-3xl"
         style={{
           background:
             "radial-gradient(circle at 20% 50%, #3b82f6 0%, transparent 50%),radial-gradient(circle at 80% 80%, #8b5cf6 0%, transparent 50%)",
@@ -44,7 +44,7 @@ export default function Hero() {
       {floatingElements.map((el) => (
         <motion.div
           key={el.id}
-          className="absolute rounded-full opacity-10 blur-3xl pointer-events-none"
+          className="pointer-events-none absolute z-0 rounded-full opacity-10 blur-3xl"
           style={{
             width: el.size,
             height: el.size,
@@ -66,12 +66,13 @@ export default function Hero() {
       ))}
 
       {/* Grid pattern overlay for premium feel */}
-      <div className="absolute inset-0 opacity-[0.02] pointer-events-none" style={{
+      <div className="pointer-events-none absolute inset-0 z-0 opacity-[0.02]" style={{
         backgroundImage: 'linear-gradient(0deg, transparent 24%, rgba(255,255,255,.1) 25%, rgba(255,255,255,.1) 26%, transparent 27%, transparent 74%, rgba(255,255,255,.1) 75%, rgba(255,255,255,.1) 76%, transparent 77%, transparent), linear-gradient(90deg, transparent 24%, rgba(255,255,255,.1) 25%, rgba(255,255,255,.1) 26%, transparent 27%, transparent 74%, rgba(255,255,255,.1) 75%, rgba(255,255,255,.1) 76%, transparent 77%, transparent)',
         backgroundSize: '50px 50px'
       }} />
 
-      <motion.div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-24 relative z-10">
+      <motion.div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+        <div className="flex w-full flex-col items-start gap-6">
         {/* Badges with enhanced stagger */}
         <div className="flex flex-wrap gap-3 mb-6">
           {badges.map((badge, i) => (
@@ -82,7 +83,7 @@ export default function Hero() {
               whileHover={{ scale: 1.08, y: -3 }}
               whileTap={{ scale: 0.95 }}
               transition={{ delay: i * 0.08, duration: 0.5, ease: "easeOut" }}
-              className="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-full glass text-sm font-medium text-slate-200 hover:border-violet-400/50 transition-all duration-300 cursor-default backdrop-blur-md"
+              className="inline-flex items-center gap-2.5 rounded-full px-4 py-2 text-sm md:text-base glass font-medium text-slate-200 hover:border-violet-400/50 transition-all duration-300 cursor-default backdrop-blur-md"
             >
               <motion.span
                 animate={{ rotate: [0, 12, -8, 0] }}
@@ -126,7 +127,7 @@ export default function Hero() {
           style={{
             fontFamily: "var(--font-syne)",
           }}
-          className="mb-6 break-words text-5xl font-black leading-[0.9] sm:mb-8 md:text-6xl lg:text-7xl"
+          className="mb-6 break-words text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-[0.9] sm:mb-8"
         >
           <motion.span
             className="grad-text inline-block"
@@ -161,7 +162,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.65, duration: 0.6, ease: "easeOut" }}
-          className="mb-10 w-full max-w-2xl text-sm leading-relaxed text-slate-400 sm:text-base md:mb-12 md:text-lg"
+          className="mb-10 w-full text-sm leading-relaxed text-slate-400 sm:text-base md:mb-12 md:text-lg md:max-w-3xl"
         >
           I build performant, scalable web applications with clean architecture.
           From MERN-powered backends to polished UIs — shipping products that
@@ -173,7 +174,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.85, duration: 0.6, ease: "easeOut" }}
-          className="mb-14 flex flex-wrap gap-3 sm:mb-16 sm:gap-4"
+          className="mb-14 flex flex-wrap gap-x-4 gap-y-3 sm:mb-16"
         >
           <motion.a
             href="https://ik.imagekit.io/Myimage/Mohan_Sharma_Fullstack_Engineer_AI_Enabled.pdf?updatedAt=1771672290161"
@@ -239,7 +240,7 @@ export default function Hero() {
         <motion.div
           animate={{ y: [0, 8, 0] }}
           transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-          className="flex justify-center mt-8"
+          className="mt-8 flex w-full justify-center self-center"
         >
           <motion.a
             href="#about"
@@ -253,6 +254,7 @@ export default function Hero() {
             <ChevronDown size={20} className="text-slate-400" />
           </motion.a>
         </motion.div>
+        </div>
       </motion.div>
     </section>
   );

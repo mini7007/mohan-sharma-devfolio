@@ -1,6 +1,7 @@
 "use client";
 import SectionReveal from "@/components/ui/SectionReveal";
 import { motion } from "framer-motion";
+import SectionContainer from "@/components/layout/SectionContainer";
 
 const cards = [
   {
@@ -41,7 +42,7 @@ const cards = [
 export default function WhyHireMe() {
   return (
     <section id="why" className="relative z-10 border-t border-white/[0.06]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-24">
+      <SectionContainer className="py-16 md:py-24">
         <SectionReveal>
           <p className="section-label">Value Proposition</p>
           <h2 className="section-title">
@@ -193,7 +194,7 @@ export default function WhyHireMe() {
             ))}
           </div>
         </SectionReveal>
-      </div>
+      </SectionContainer>
     </section>
   );
 }

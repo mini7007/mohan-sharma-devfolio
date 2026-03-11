@@ -4,6 +4,7 @@ import { FormEvent, useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import emailjs from "@emailjs/browser";
 import SectionReveal from "@/components/ui/SectionReveal";
+import SectionContainer from "@/components/layout/SectionContainer";
 import { toast } from "@/components/ui/sonner";
 import {
   Mail,
@@ -164,13 +165,13 @@ export default function Contact() {
 
   return (
     <section id="contact" className="relative z-20 border-t border-white/[0.06]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-24">
+      <SectionContainer className="py-16 md:py-24">
         <SectionReveal>
           <p className="section-label text-center">Get In Touch</p>
           <h2 className="section-title text-center">
             Let&apos;s <span className="grad-text">Connect</span>
           </h2>
-          <p className="text-slate-400 text-center max-w-2xl mx-auto mb-16 text-sm leading-relaxed">
+          <p className="text-slate-400 text-center md:max-w-3xl mx-auto mb-16 text-sm leading-relaxed">
             I&apos;m always interested in hearing about new projects and opportunities. Whether you&apos;re looking for a developer to join your team, have a freelance project, or just want to chat — feel free to reach out.
           </p>
         </SectionReveal>
@@ -331,7 +332,7 @@ export default function Contact() {
             </motion.p>
           </div>
         </SectionReveal>
-      </div>
+      </SectionContainer>
 
       <AnimatePresence>
         {isModalOpen && (

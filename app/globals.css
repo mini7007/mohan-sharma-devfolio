@@ -11,6 +11,7 @@
 
   html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
     cursor: none;
     /* GPU acceleration for smooth scrolling */
     -webkit-font-smoothing: antialiased;
@@ -21,6 +22,7 @@
 
   body {
     @apply bg-navy text-slate-200 antialiased;
+    overflow-x: hidden;
     font-family: var(--font-dm-sans);
     background: linear-gradient(135deg, #0f172a 0%, #1a2849 50%, #0f172a 100%);
     background-attachment: fixed;

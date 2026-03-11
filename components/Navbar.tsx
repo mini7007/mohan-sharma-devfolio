@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { Menu, X } from "lucide-react";
+import SectionContainer from "@/components/layout/SectionContainer";
 
 const links = [
   { label: "About", href: "#about" },
@@ -24,7 +25,7 @@ export default function Navbar() {
   return (
     <motion.nav
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 px-6 py-4 flex items-center justify-between transition-all duration-500",
+        "fixed top-0 left-0 right-0 z-50 py-3 sm:py-4 transition-all duration-500",
         scrolled
           ? "bg-navy/40 backdrop-blur-2xl border-b border-white/[0.08]"
           : "bg-transparent"
@@ -35,6 +36,8 @@ export default function Navbar() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
     >
+      <SectionContainer className="relative z-10">
+        <div className="flex items-center justify-between w-full gap-3">
       {/* Animated background gradient on scroll */}
       {scrolled && (
         <motion.div
@@ -59,7 +62,7 @@ export default function Navbar() {
       </motion.a>
 
       {/* Desktop links with enhanced hover effects */}
-      <ul className="hidden md:flex items-center gap-8 relative z-10" role="list">
+      <ul className="relative z-10 hidden md:flex items-center flex-wrap gap-x-8 gap-y-3" role="list">
         {links.map((link, i) => (
           <li key={link.href}>
             <motion.a
@@ -120,10 +123,12 @@ export default function Navbar() {
           {mobileOpen ? <X size={20} /> : <Menu size={20} />}
         </motion.div>
       </motion.button>
+        </div>
+      </SectionContainer>
 
       {/* Mobile menu with smooth animation */}
       <motion.div
-        className="absolute top-full left-0 right-0 md:hidden border-b border-white/[0.08] py-6 px-6 flex flex-col gap-3 relative z-10"
+        className="absolute top-full left-0 right-0 md:hidden border-b border-white/[0.08] py-6"
         style={{
           background: "rgba(15,23,42,0.95)",
           backdropFilter: "blur(20px)",
@@ -133,6 +138,8 @@ export default function Navbar() {
         animate={{ opacity: mobileOpen ? 1 : 0, y: mobileOpen ? 0 : -20 }}
         transition={{ duration: 0.3, ease: "easeOut" }}
       >
+        <SectionContainer>
+          <div className="flex flex-col gap-3">
         {links.map((link, i) => (
           <motion.a
             key={link.href}
@@ -162,6 +169,8 @@ export default function Navbar() {
         >
           Hire Me
         </motion.a>
+          </div>
+        </SectionContainer>
       </motion.div>
     </motion.nav>
   );
