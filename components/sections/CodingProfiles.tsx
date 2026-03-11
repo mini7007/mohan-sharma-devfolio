@@ -91,7 +91,7 @@ export default function CodingProfiles() {
       id="profiles"
       className="relative z-10 border-t border-white/[0.06]"
     >
-      <div className="max-w-5xl mx-auto px-6 py-24">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-24">
         <SectionReveal>
           <p className="section-label">Online Presence</p>
           <h2 className="section-title">

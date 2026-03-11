@@ -19,7 +19,7 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative z-10 min-h-screen flex items-center pt-20 overflow-hidden"
+      className="relative z-10 flex min-h-screen items-center overflow-hidden pt-20"
       aria-label="Hero section"
     >
       {/* Premium animated background */}
@@ -71,7 +71,7 @@ export default function Hero() {
         backgroundSize: '50px 50px'
       }} />
 
-      <motion.div className="max-w-5xl mx-auto px-6 py-24 relative z-10">
+      <motion.div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-24 relative z-10">
         {/* Badges with enhanced stagger */}
         <div className="flex flex-wrap gap-3 mb-6">
           {badges.map((badge, i) => (
@@ -102,7 +102,7 @@ export default function Hero() {
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.35, duration: 0.6, ease: "easeOut" }}
-          className="mb-10 inline-flex items-center gap-2.5 px-4 py-3 rounded-full backdrop-blur-md transition-all duration-300 hover:scale-105"
+          className="mb-8 inline-flex max-w-full items-center gap-2.5 rounded-full px-4 py-3 backdrop-blur-md transition-all duration-300 hover:scale-105 sm:mb-10"
           style={{
             background: "linear-gradient(135deg, rgba(34,197,94,0.1), rgba(16,185,129,0.1))",
             border: "1px solid rgba(34,197,94,0.3)",
@@ -125,9 +125,8 @@ export default function Hero() {
           transition={{ delay: 0.2, duration: 0.8, ease: "easeOut" }}
           style={{
             fontFamily: "var(--font-syne)",
-            fontSize: "clamp(3.5rem, 9vw, 7.5rem)",
           }}
-          className="font-black leading-[0.95] mb-8 text-balance"
+          className="mb-6 break-words text-5xl font-black leading-[0.9] sm:mb-8 md:text-6xl lg:text-7xl"
         >
           <motion.span
             className="grad-text inline-block"
@@ -152,7 +151,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.6, ease: "easeOut" }}
-          className="text-xl md:text-2xl text-slate-300 font-light mb-6 text-balance"
+          className="mb-5 text-lg font-light text-slate-300 sm:text-xl md:mb-6 md:text-2xl"
         >
           Software Engineer & Full Stack Developer
         </motion.p>
@@ -162,7 +161,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.65, duration: 0.6, ease: "easeOut" }}
-          className="text-slate-400 text-base md:text-lg max-w-2xl leading-relaxed mb-12 text-pretty"
+          className="mb-10 w-full max-w-2xl text-sm leading-relaxed text-slate-400 sm:text-base md:mb-12 md:text-lg"
         >
           I build performant, scalable web applications with clean architecture.
           From MERN-powered backends to polished UIs — shipping products that
@@ -174,14 +173,14 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.85, duration: 0.6, ease: "easeOut" }}
-          className="flex flex-wrap gap-4 mb-16"
+          className="mb-14 flex flex-wrap gap-3 sm:mb-16 sm:gap-4"
         >
           <motion.a
             href="https://ik.imagekit.io/Myimage/Mohan_Sharma_Fullstack_Engineer_AI_Enabled.pdf?updatedAt=1771672290161"
             download
             target="_blank"
             rel="noopener noreferrer"
-            className="group inline-flex items-center gap-2 px-8 py-4 rounded-xl font-semibold text-white overflow-hidden relative transition-all duration-300"
+            className="group relative inline-flex w-full items-center justify-center gap-2 overflow-hidden rounded-xl px-6 py-3.5 font-semibold text-white transition-all duration-300 sm:w-auto sm:px-8 sm:py-4"
             style={{
               background: "linear-gradient(135deg, #22c55e, #10b981)",
             }}
@@ -204,7 +203,7 @@ export default function Hero() {
 
           <motion.a
             href="#projects"
-            className="group inline-flex items-center gap-2 px-8 py-4 rounded-xl font-semibold text-white overflow-hidden relative transition-all duration-300"
+            className="group relative inline-flex w-full items-center justify-center gap-2 overflow-hidden rounded-xl px-6 py-3.5 font-semibold text-white transition-all duration-300 sm:w-auto sm:px-8 sm:py-4"
             style={{
               background: "linear-gradient(135deg, #3b82f6, #8b5cf6)",
             }}
@@ -223,7 +222,7 @@ export default function Hero() {
 
           <motion.a
             href="#contact"
-            className="group inline-flex items-center gap-2 px-8 py-4 rounded-xl font-semibold text-slate-200 transition-all duration-300 backdrop-blur-md hover:text-white"
+            className="group inline-flex w-full items-center justify-center gap-2 rounded-xl px-6 py-3.5 font-semibold text-slate-200 transition-all duration-300 backdrop-blur-md hover:text-white sm:w-auto sm:px-8 sm:py-4"
             style={{
               background: "rgba(255,255,255,0.05)",
               border: "1.5px solid rgba(255,255,255,0.1)",
