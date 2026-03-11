@@ -2,18 +2,18 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import SnakeGame from "./SnakeGame";
-import MemoryGame from "./MemoryGame";
+import TicTacToeGame from "./TicTacToeGame";
+import CodeBreakerGame from "./CodeBreakerGame";
 import DebugGame from "./DebugGame";
 
-type GameMode = "menu" | "snake" | "memory" | "debug";
+type GameMode = "menu" | "tic-tac-toe" | "code-breaker" | "debug";
 
 const VISITOR_KEY = "offline-arcade-visitors";
 
 const gameOptions: { mode: Exclude<GameMode, "menu">; title: string; description: string }[] = [
-  { mode: "snake", title: "Snake Game", description: "Arrow keys, rising speed, old-school glory." },
-  { mode: "memory", title: "Memory Match", description: "Flip cards and match the developer stack." },
-  { mode: "debug", title: "Debug the Code", description: "Fix bugs faster than the network can reconnect." },
+  { mode: "tic-tac-toe", title: "🎮 Tic Tac Toe", description: "Beat the CPU in a mobile-friendly 3x3 battle." },
+  { mode: "code-breaker", title: "🧠 Code Breaker", description: "Guess the hidden number between 1 and 50." },
+  { mode: "debug", title: "🐞 Debug the Code", description: "Fix bugs faster than the network can reconnect." },
 ];
 
 export default function OfflineArcade() {
@@ -38,8 +38,8 @@ export default function OfflineArcade() {
   }, []);
 
   const content = useMemo(() => {
-    if (activeGame === "snake") return <SnakeGame onExit={() => setActiveGame("menu")} />;
-    if (activeGame === "memory") return <MemoryGame onExit={() => setActiveGame("menu")} />;
+    if (activeGame === "tic-tac-toe") return <TicTacToeGame onExit={() => setActiveGame("menu")} />;
+    if (activeGame === "code-breaker") return <CodeBreakerGame onExit={() => setActiveGame("menu")} />;
     if (activeGame === "debug") return <DebugGame onExit={() => setActiveGame("menu")} />;
 
     return (
@@ -48,11 +48,11 @@ export default function OfflineArcade() {
         initial={{ opacity: 0, scale: 0.98, y: 8 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, y: -8 }}
-        className="w-full max-w-3xl rounded-2xl border border-cyan-300/20 bg-slate-950/85 p-8 text-center shadow-2xl"
+        className="w-full max-w-3xl rounded-2xl border border-cyan-300/20 bg-slate-950/85 p-6 text-center shadow-2xl sm:p-8"
       >
         <p className="text-xl font-bold tracking-wide text-cyan-300">⚡ CONNECTION LOST</p>
         <p className="mt-2 text-slate-300">But great developers always have a backup plan.</p>
-        <h1 className="mt-3 text-3xl font-semibold text-white">🎮 Welcome to the Offline Arcade</h1>
+        <h1 className="mt-3 text-2xl font-semibold text-white sm:text-3xl">🎮 Welcome to the Offline Arcade</h1>
         <p className="mt-3 text-sm text-cyan-200">⚡ {visitorCount} visitors played while offline</p>
 
         <div className="mt-8 grid gap-3 text-left sm:grid-cols-3">
