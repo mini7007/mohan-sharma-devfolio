@@ -12,24 +12,27 @@ import Projects from "@/components/sections/Projects";
 import Experience from "@/components/sections/Experience";
 import Contact from "@/components/sections/Contact";
 import Footer from "@/components/Footer";
+import OfflineExperienceGate from "@/components/offline/OfflineExperienceGate";
 
 export default function Home() {
   return (
-    <main className="min-h-screen pb-24">
-      <BrandRevealLoader />
-      <CustomCursor />
-      <ScrollProgress />
-      <BackgroundBlobs />
-      <Navbar />
-      <Hero />
-      <About />
-      <CodingProfiles />
-      <WhyHireMe />
-      <TechStack />
-      <Projects />
-      <Experience />
-      <Contact />
-      <Footer />
-    </main>
+    <OfflineExperienceGate>
+      <main className="min-h-screen pb-24">
+        <BrandRevealLoader />
+        <CustomCursor />
+        <ScrollProgress />
+        <BackgroundBlobs />
+        <Navbar />
+        <Hero />
+        <About />
+        <CodingProfiles />
+        <WhyHireMe />
+        <TechStack />
+        <Projects />
+        <Experience />
+        <Contact />
+        <Footer />
+      </main>
+    </OfflineExperienceGate>
   );
 }
