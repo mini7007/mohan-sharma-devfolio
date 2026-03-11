@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import SectionContainer from "@/components/layout/SectionContainer";
 import SectionReveal from "@/components/ui/SectionReveal";
 import { ExternalLink } from "lucide-react";
 
@@ -91,7 +92,7 @@ export default function CodingProfiles() {
       id="profiles"
       className="relative z-10 border-t border-white/[0.06]"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-24">
+      <SectionContainer className="py-16 md:py-24">
         <SectionReveal>
           <p className="section-label">Online Presence</p>
           <h2 className="section-title">
@@ -213,7 +214,7 @@ export default function CodingProfiles() {
             ))}
           </div>
         </SectionReveal>
-      </div>
+      </SectionContainer>
     </section>
   );
 }

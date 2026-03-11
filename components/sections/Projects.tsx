@@ -1,5 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
+import SectionContainer from "@/components/layout/SectionContainer";
 import SectionReveal from "@/components/ui/SectionReveal";
 import { Github, ExternalLink } from "lucide-react";
 
@@ -39,7 +40,7 @@ export default function Projects() {
       id="projects"
       className="relative z-10 border-t border-white/[0.06]"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-24">
+      <SectionContainer className="py-16 md:py-24">
         <SectionReveal>
           <p className="section-label">Work</p>
           <h2 className="section-title">
@@ -138,7 +139,7 @@ export default function Projects() {
                   </div>
 
                   {/* Links with premium styling */}
-                  <div className="flex gap-3">
+                  <div className="flex flex-wrap gap-x-4 gap-y-3">
                     <motion.a
                       href={project.github}
                       target="_blank"
@@ -182,7 +183,7 @@ export default function Projects() {
             ))}
           </div>
         </SectionReveal>
-      </div>
+      </SectionContainer>
     </section>
   );
 }

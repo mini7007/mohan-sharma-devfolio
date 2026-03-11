@@ -17,7 +17,7 @@ import OfflineExperienceGate from "@/components/offline/OfflineExperienceGate";
 export default function Home() {
   return (
     <OfflineExperienceGate>
-      <main className="min-h-screen pb-24">
+      <main className="min-h-screen w-full max-w-full overflow-x-hidden pb-24">
         <BrandRevealLoader />
         <CustomCursor />
         <ScrollProgress />

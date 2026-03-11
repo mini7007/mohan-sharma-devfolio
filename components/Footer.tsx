@@ -1,12 +1,13 @@
 "use client";
 import { motion } from "framer-motion";
 import { getCurrentYear } from "@/lib/utils";
+import SectionContainer from "@/components/layout/SectionContainer";
 
 export default function Footer() {
   const year = getCurrentYear();
   return (
     <motion.footer
-      className="relative z-10 border-t border-white/[0.06] py-12 px-6 text-center overflow-hidden"
+      className="relative z-10 overflow-hidden border-t border-white/[0.06] py-12 text-center"
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       viewport={{ once: true }}
@@ -30,7 +31,7 @@ export default function Footer() {
         }}
       />
 
-      <div className="relative z-10 max-w-5xl mx-auto">
+      <SectionContainer className="relative z-10">
         <motion.div
           className="font-black text-2xl bg-gradient-to-r from-blue-400 via-violet-400 to-pink-400 bg-clip-text text-transparent mb-4"
           style={{ fontFamily: "var(--font-syne)" }}
@@ -93,7 +94,7 @@ export default function Footer() {
             />
           ))}
         </motion.div>
-      </div>
+      </SectionContainer>
     </motion.footer>
   );
 }
