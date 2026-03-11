@@ -2,6 +2,8 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
+import { useDeviceDetection } from "@/hooks/useDeviceDetection";
+import TouchControls from "./TouchControls";
 
 type Cell = { x: number; y: number };
 type Direction = "UP" | "DOWN" | "LEFT" | "RIGHT";
@@ -34,12 +36,23 @@ type SnakeGameProps = {
 };
 
 export default function SnakeGame({ onExit }: SnakeGameProps) {
+  const { isTouchDevice } = useDeviceDetection();
   const [snake, setSnake] = useState<Cell[]>(INITIAL_SNAKE);
   const [direction, setDirection] = useState<Direction>("RIGHT");
   const [food, setFood] = useState<Cell>({ x: 11, y: 8 });
   const [isGameOver, setIsGameOver] = useState(false);
   const [score, setScore] = useState(0);
   const [tickSpeed, setTickSpeed] = useState(170);
+
+  const updateDirection = useCallback((nextDirection: Direction) => {
+    setDirection((currentDirection) => {
+      if (nextDirection === "UP" && currentDirection === "DOWN") return currentDirection;
+      if (nextDirection === "DOWN" && currentDirection === "UP") return currentDirection;
+      if (nextDirection === "LEFT" && currentDirection === "RIGHT") return currentDirection;
+      if (nextDirection === "RIGHT" && currentDirection === "LEFT") return currentDirection;
+      return nextDirection;
+    });
+  }, []);
 
   const restart = useCallback(() => {
     setSnake(INITIAL_SNAKE);
@@ -52,16 +65,16 @@ export default function SnakeGame({ onExit }: SnakeGameProps) {
 
   useEffect(() => {
     const keyHandler = (event: KeyboardEvent) => {
-      if (event.key === "ArrowUp" && direction !== "DOWN") setDirection("UP");
-      if (event.key === "ArrowDown" && direction !== "UP") setDirection("DOWN");
-      if (event.key === "ArrowLeft" && direction !== "RIGHT") setDirection("LEFT");
-      if (event.key === "ArrowRight" && direction !== "LEFT") setDirection("RIGHT");
+      if (event.key === "ArrowUp") updateDirection("UP");
+      if (event.key === "ArrowDown") updateDirection("DOWN");
+      if (event.key === "ArrowLeft") updateDirection("LEFT");
+      if (event.key === "ArrowRight") updateDirection("RIGHT");
       if (event.key.toLowerCase() === "r") restart();
     };
 
     window.addEventListener("keydown", keyHandler);
     return () => window.removeEventListener("keydown", keyHandler);
-  }, [direction, restart]);
+  }, [restart, updateDirection]);
 
   useEffect(() => {
     if (isGameOver) return;
@@ -145,6 +158,7 @@ export default function SnakeGame({ onExit }: SnakeGameProps) {
         <p className="text-sm text-slate-300">Score: {score}</p>
       </div>
       <div className="grid gap-1" style={{ gridTemplateColumns: `repeat(${GRID_SIZE}, minmax(0, 1fr))` }}>{gridCells}</div>
+      {isTouchDevice ? <TouchControls onDirectionChange={updateDirection} /> : null}
       <div className="mt-4 flex flex-wrap gap-3 text-sm">
         <button className="rounded-md bg-cyan-500 px-3 py-2 font-medium text-slate-950" onClick={restart}>Restart (R)</button>
         <button className="rounded-md border border-slate-700 px-3 py-2 text-slate-200" onClick={onExit}>Back to arcade</button>
@@ -152,7 +166,11 @@ export default function SnakeGame({ onExit }: SnakeGameProps) {
       {isGameOver ? (
         <p className="mt-3 text-sm text-rose-300">Game over! Hit restart and keep the snake alive.</p>
       ) : (
-        <p className="mt-3 text-sm text-slate-400">Use arrow keys to move. Speed increases every time you eat.</p>
+        <p className="mt-3 text-sm text-slate-400">
+          {isTouchDevice
+            ? "Use on-screen controls or arrow keys to move. Speed increases every time you eat."
+            : "Use arrow keys to move. Speed increases every time you eat."}
+        </p>
       )}
     </motion.section>
   );
