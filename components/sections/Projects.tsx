@@ -43,7 +43,7 @@ export default function Projects() {
     >
       <SectionContainer className="py-16 md:py-24">
         <DevOverlay
-          label="Dynamic rendering + API integration"
+          label="Dynamic UI • API Data"
           className="right-4 top-10 sm:right-6"
           icon={<span aria-hidden="true">🛠️</span>}
         />

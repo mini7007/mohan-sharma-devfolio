@@ -28,35 +28,23 @@ function DeveloperModeToggle() {
     <motion.button
       type="button"
       onClick={toggle}
-      className="fixed right-4 top-24 z-[95] inline-flex items-center gap-3 rounded-full border border-white/10 bg-slate-950/75 px-4 py-3 text-left text-xs font-semibold text-slate-100 shadow-[0_12px_40px_rgba(15,23,42,0.45)] backdrop-blur-xl transition-colors hover:border-violet-400/40 sm:right-6 sm:top-28"
-      whileHover={{ scale: 1.03, y: -2 }}
+      initial={{ opacity: 0, y: -8 }}
+      animate={{ opacity: 1, y: 0 }}
+      whileHover={{ scale: 1.02, y: -1 }}
       whileTap={{ scale: 0.98 }}
+      transition={{ duration: 0.2, ease: "easeOut" }}
+      className="fixed right-4 top-4 z-[95] inline-flex items-center gap-2 rounded-full border border-white/10 bg-slate-950/70 px-3 py-2 text-xs font-medium text-slate-100 shadow-[0_10px_30px_rgba(15,23,42,0.35)] backdrop-blur-xl transition-colors hover:border-violet-400/30 sm:right-6 sm:top-6"
       aria-pressed={isEnabled}
       aria-label={isEnabled ? "Disable developer mode" : "Enable developer mode"}
     >
-      <span className="text-base" aria-hidden="true">
-        🧑‍💻
-      </span>
-      <span className="flex flex-col leading-tight">
-        <span>Dev Mode</span>
-        <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-slate-400">
-          {isEnabled ? "On" : "Off"}
-        </span>
-      </span>
+      <span aria-hidden="true">🧑‍💻</span>
+      <span>Dev Mode</span>
       <span
-        className={`relative h-6 w-11 rounded-full border transition-colors ${
-          isEnabled
-            ? "border-emerald-400/50 bg-emerald-400/20"
-            : "border-white/10 bg-white/10"
+        className={`h-2 w-2 rounded-full transition-colors ${
+          isEnabled ? "bg-emerald-400" : "bg-slate-500"
         }`}
         aria-hidden="true"
-      >
-        <motion.span
-          className="absolute top-0.5 h-4 w-4 rounded-full bg-white shadow-md"
-          animate={{ x: isEnabled ? 20 : 2 }}
-          transition={{ type: "spring", stiffness: 320, damping: 24 }}
-        />
-      </span>
+      />
     </motion.button>
   );
 }

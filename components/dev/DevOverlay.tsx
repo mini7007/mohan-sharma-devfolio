@@ -22,16 +22,16 @@ export default function DevOverlay({
     <AnimatePresence>
       {isEnabled ? (
         <motion.div
-          initial={{ opacity: 0, y: 8, scale: 0.96 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          exit={{ opacity: 0, y: -8, scale: 0.96 }}
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 0.7, y: 0 }}
+          exit={{ opacity: 0, y: -8 }}
           transition={{ duration: 0.2, ease: "easeOut" }}
           className={cn(
-            "pointer-events-none absolute z-30 inline-flex max-w-[16rem] items-center gap-2 rounded-full border border-cyan-300/20 bg-slate-950/65 px-3 py-2 text-[11px] font-medium leading-tight text-cyan-100 shadow-[0_10px_30px_rgba(8,145,178,0.18)] backdrop-blur-md",
+            "pointer-events-none absolute z-30 inline-flex max-w-[16rem] items-center gap-1.5 rounded-md border border-white/10 bg-black/50 px-2 py-1 text-xs text-white opacity-70 shadow-[0_8px_20px_rgba(15,23,42,0.2)] backdrop-blur",
             className
           )}
         >
-          <span className="text-xs">{icon}</span>
+          <span className="text-[11px]">{icon}</span>
           <span>{label}</span>
         </motion.div>
       ) : null}
