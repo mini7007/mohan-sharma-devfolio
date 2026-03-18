@@ -45,34 +45,28 @@ This is a **modern, performant portfolio website** built with Next.js 14 and Rea
 
 ---
 
-## ✨ Features
+## 🚀 Features
 
-### Core Features
-- **Responsive Design** — Mobile-first approach, optimized for all screen sizes
-- **Dark Theme UI** — Modern dark aesthetic with gradient accents and glass morphism
-- **Smooth Animations** — Framer Motion integration for engaging micro-interactions
-- **PWA Ready** — Service Worker support for offline access and app installation
-- **Performance Optimized** — Lazy loading, image optimization, and production builds
-- **SEO Friendly** — Complete metadata, Open Graph, Twitter cards, and structured data
-- **Accessibility** — ARIA labels, semantic HTML, keyboard navigation support
+This portfolio is designed as an interactive experience rather than a static resume, focusing on usability, performance, and creativity.
 
-### Sections
-1. **Hero** — Eye-catching introduction with CTAs
-2. **About** — Professional background and philosophy
-3. **Coding Profiles** — Links to LeetCode, Codeforces, etc.
-4. **Why Hire Me** — Unique value propositions
-5. **Tech Stack** — Interactive category-based skill visualization
-6. **Projects** — Featured portfolio projects with descriptions
-7. **Experience** — Professional timeline and achievements
-8. **Contact** — Easy connection options
+- ⚡ **Offline Arcade**  
+  Play mini games (Tic Tac Toe, Code Breaker, Debug Game) when offline
+- 💬 **Ask Me (Offline Assistant)**  
+  Explore information about me even without internet
+- 🧑‍💻 **Developer Mode**  
+  Toggle to view tech stack and implementation details
+- 🛠 **Developer Insights**  
+  Learn how this portfolio is built (visible in Dev Mode)
+- 🎧 **Music While Coding**  
+  Embedded YouTube playlist of tracks I listen to while coding
 
-### Interactive Elements
-- Custom cursor animation
-- Page loader with smooth transitions
-- Background blob animations
-- Section reveal animations on scroll
-- Interactive tech stack category selector
-- Floating action buttons with gradients
+## 🧠 Key Highlights
+
+- Built with Next.js, TypeScript, Tailwind CSS
+- Fully responsive design
+- Offline-first experience
+- Interactive UI with Framer Motion
+- Clean and modular architecture
 
 ---
 
