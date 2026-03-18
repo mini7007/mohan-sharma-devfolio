@@ -1,6 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
 import { ArrowRight, MessageCircle, Download, ChevronDown } from "lucide-react";
+import DevOverlay from "@/components/dev/DevOverlay";
 
 const badges = [
   { icon: "⭐", label: "3+ Years Experience" },
@@ -22,6 +23,12 @@ export default function Hero() {
       className="relative z-10 flex min-h-screen w-full items-center overflow-hidden pt-20"
       aria-label="Hero section"
     >
+      <DevOverlay
+        label="Built with Next.js + Tailwind + Framer Motion"
+        className="left-4 top-24 sm:left-8 sm:top-28"
+        icon={<span aria-hidden="true">🚀</span>}
+      />
+
       {/* Premium animated background */}
       <motion.div
         animate={{

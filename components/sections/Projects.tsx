@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import SectionContainer from "@/components/layout/SectionContainer";
 import SectionReveal from "@/components/ui/SectionReveal";
 import { Github, ExternalLink } from "lucide-react";
+import DevOverlay from "@/components/dev/DevOverlay";
 
 const projects = [
   {
@@ -41,6 +42,11 @@ export default function Projects() {
       className="relative z-10 border-t border-white/[0.06]"
     >
       <SectionContainer className="py-16 md:py-24">
+        <DevOverlay
+          label="Dynamic rendering + API integration"
+          className="right-4 top-10 sm:right-6"
+          icon={<span aria-hidden="true">🛠️</span>}
+        />
         <SectionReveal>
           <p className="section-label">Work</p>
           <h2 className="section-title">

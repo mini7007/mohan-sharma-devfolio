@@ -11,28 +11,35 @@ import TechStack from "@/components/sections/TechStack";
 import Projects from "@/components/sections/Projects";
 import Experience from "@/components/sections/Experience";
 import Contact from "@/components/sections/Contact";
+import HowIBuilt from "@/components/HowIBuilt";
+import MusicSection from "@/components/MusicSection";
+import { DeveloperModeProvider } from "@/components/dev/DeveloperModeContext";
 import Footer from "@/components/Footer";
 import OfflineExperienceGate from "@/components/offline/OfflineExperienceGate";
 
 export default function Home() {
   return (
-    <OfflineExperienceGate>
-      <main className="min-h-screen w-full max-w-full overflow-x-hidden pb-24">
-        <BrandRevealLoader />
-        <CustomCursor />
-        <ScrollProgress />
-        <BackgroundBlobs />
-        <Navbar />
-        <Hero />
-        <About />
-        <CodingProfiles />
-        <WhyHireMe />
-        <TechStack />
-        <Projects />
-        <Experience />
-        <Contact />
-        <Footer />
-      </main>
-    </OfflineExperienceGate>
+    <DeveloperModeProvider>
+      <OfflineExperienceGate>
+        <main className="min-h-screen w-full max-w-full overflow-x-hidden pb-24">
+          <BrandRevealLoader />
+          <CustomCursor />
+          <ScrollProgress />
+          <BackgroundBlobs />
+          <Navbar />
+          <Hero />
+          <About />
+          <CodingProfiles />
+          <WhyHireMe />
+          <TechStack />
+          <Projects />
+          <HowIBuilt />
+          <MusicSection />
+          <Contact />
+          <Experience />
+          <Footer />
+        </main>
+      </OfflineExperienceGate>
+    </DeveloperModeProvider>
   );
 }
