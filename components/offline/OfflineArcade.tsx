@@ -77,7 +77,7 @@ export default function OfflineArcade() {
   return (
     <div className="fixed inset-0 z-[100] flex min-h-screen items-center justify-center bg-slate-950/95 p-4 text-white">
       <DevOverlay
-        label="Offline detection + local state games"
+        label="Offline Detection + Local State"
         className="left-4 top-4 z-[120] sm:left-6 sm:top-6"
         icon={<span aria-hidden="true">📡</span>}
       />

@@ -24,7 +24,7 @@ export default function Hero() {
       aria-label="Hero section"
     >
       <DevOverlay
-        label="Built with Next.js + Tailwind + Framer Motion"
+        label="Next.js • Tailwind • Framer Motion"
         className="left-4 top-24 sm:left-8 sm:top-28"
         icon={<span aria-hidden="true">🚀</span>}
       />
