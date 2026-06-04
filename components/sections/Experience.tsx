@@ -5,7 +5,7 @@ import SectionReveal from "@/components/ui/SectionReveal";
 
 const experiences = [
   {
-    date: "2025 — Present",
+    date: " July 2025 — April 2026",
     company: "EC-Council Pvt Ltd",
     role: "Full Stack Developer",
     color: "#D71920",
