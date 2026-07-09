@@ -3,6 +3,7 @@ import BackgroundBlobs from "@/components/BackgroundBlobs";
 import BrandRevealLoader from "@/components/BrandRevealLoader";
 import CustomCursor from "@/components/CustomCursor";
 import ScrollProgress from "@/components/ScrollProgress";
+import { Mascot } from "@/components/Mascot";
 import Hero from "@/components/sections/Hero";
 import About from "@/components/sections/About";
 import CodingProfiles from "@/components/sections/CodingProfiles";
@@ -26,6 +27,7 @@ export default function Home() {
           <CustomCursor />
           <ScrollProgress />
           <BackgroundBlobs />
+          <Mascot />
           <Navbar />
           <Hero />
           <About />
