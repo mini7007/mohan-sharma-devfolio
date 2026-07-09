@@ -1,6 +1,8 @@
 import Navbar from "@/components/Navbar";
 import BackgroundBlobs from "@/components/BackgroundBlobs";
-import BrandRevealLoader from "@/components/BrandRevealLoader";
+import CinematicLoader from "@/components/CinematicLoader";
+import LivingEnvironment from "@/components/LivingEnvironment";
+import RecruiterModeToggle from "@/components/RecruiterModeToggle";
 import CustomCursor from "@/components/CustomCursor";
 import ScrollProgress from "@/components/ScrollProgress";
 import { Mascot } from "@/components/Mascot";
@@ -14,6 +16,7 @@ import Experience from "@/components/sections/Experience";
 import Contact from "@/components/sections/Contact";
 import MusicSection from "@/components/MusicSection";
 import { DeveloperModeProvider } from "@/components/dev/DeveloperModeContext";
+import { RecruiterModeProvider } from "@/hooks/useRecruiterMode";
 import DevInsights from "@/components/dev/DevInsights";
 import Footer from "@/components/Footer";
 import OfflineExperienceGate from "@/components/offline/OfflineExperienceGate";
@@ -21,27 +24,31 @@ import OfflineExperienceGate from "@/components/offline/OfflineExperienceGate";
 export default function Home() {
   return (
     <DeveloperModeProvider>
-      <OfflineExperienceGate>
-        <main className="min-h-screen w-full max-w-full overflow-x-hidden pb-24">
-          <BrandRevealLoader />
-          <CustomCursor />
-          <ScrollProgress />
-          <BackgroundBlobs />
-          <Mascot />
-          <Navbar />
-          <Hero />
-          <About />
-          <CodingProfiles />
-          <WhyHireMe />
-          <TechStack />
-          <Projects />
-          <MusicSection />
-          <Contact />
-          <Experience />
-          <Footer />
-          <DevInsights />
-        </main>
-      </OfflineExperienceGate>
+      <RecruiterModeProvider>
+        <OfflineExperienceGate>
+          <main className="min-h-screen w-full max-w-full overflow-x-hidden pb-24">
+            <CinematicLoader />
+            <LivingEnvironment />
+            <CustomCursor />
+            <ScrollProgress />
+            <BackgroundBlobs />
+            <Mascot />
+            <RecruiterModeToggle />
+            <Navbar />
+            <Hero />
+            <About />
+            <CodingProfiles />
+            <WhyHireMe />
+            <TechStack />
+            <Projects />
+            <MusicSection />
+            <Contact />
+            <Experience />
+            <Footer />
+            <DevInsights />
+          </main>
+        </OfflineExperienceGate>
+      </RecruiterModeProvider>
     </DeveloperModeProvider>
   );
 }
