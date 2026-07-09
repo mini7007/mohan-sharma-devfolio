@@ -184,7 +184,7 @@ export default function Hero() {
           className="mb-14 flex flex-wrap gap-x-4 gap-y-3 sm:mb-16"
         >
           <motion.a
-            href="https://ik.imagekit.io/Myimage/Mohan_Sharma_Fullstack_Engineer_AI_Enabled.pdf?updatedAt=1771672290161"
+            href="https://ik.imagekit.io/Myimage/Mohan_Sharma_Resume_Fullstack.pdf"
             download
             target="_blank"
             rel="noopener noreferrer"

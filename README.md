@@ -2,7 +2,7 @@
 
 <div align="center">
 
-**[🌐 Live Portfolio](https://mohan-sharma-portfolio.vercel.app)** • **[📄 Resume](https://ik.imagekit.io/Myimage/Mohan_Sharma_Fullstack_Engineer_AI_Enabled.pdf)** • **[💼 LinkedIn](https://linkedin.com)** • **[🐙 GitHub](https://github.com)**
+**[🌐 Live Portfolio](https://mohan-sharma-portfolio.vercel.app)** • **[📄 Resume](https://ik.imagekit.io/Myimage/Mohan_Sharma_Resume_Fullstack.pdf)** • **[💼 LinkedIn](https://linkedin.com)** • **[🐙 GitHub](https://github.com)**
 
 A high-performance, production-grade portfolio website showcasing 3+ years of full-stack development expertise, 900+ LeetCode problems solved, and 50+ projects delivered.
 
