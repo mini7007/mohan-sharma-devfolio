@@ -5,6 +5,7 @@ import gsap from "gsap";
 export default function BrandRevealLoader() {
   const containerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+  const circleRef = useRef<SVGCircleElement>(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -39,6 +40,20 @@ export default function BrandRevealLoader() {
         );
       }
 
+      // Animated circle running along the line (0-1.2s)
+      if (circleRef.current) {
+        tl.to(
+          circleRef.current,
+          {
+            attr: { cx: 750 },
+            opacity: 1,
+            duration: 1.2,
+            ease: "power1.inOut",
+          },
+          0
+        );
+      }
+
       // Phase 2: Ribbon fades out (1.2-1.6s)
       if (ribbonPath) {
         tl.to(
@@ -46,6 +61,19 @@ export default function BrandRevealLoader() {
           {
             opacity: 0,
             duration: 0.4,
+            ease: "power2.in",
+          },
+          1.2
+        );
+      }
+
+      // Hide running circle (1.2s)
+      if (circleRef.current) {
+        tl.to(
+          circleRef.current,
+          {
+            opacity: 0,
+            duration: 0.3,
             ease: "power2.in",
           },
           1.2
@@ -71,7 +99,27 @@ export default function BrandRevealLoader() {
         );
       }
 
-      // Phase 4: M fades out (1.8-2.2s)
+      // Phase 4: M pulses (1.8-2.0s)
+      if (mPath) {
+        tl.to(
+          mPath,
+          {
+            filter: "drop-shadow(0 0 10px rgba(59,130,246,0.8))",
+            duration: 0.2,
+          },
+          1.8
+        );
+        tl.to(
+          mPath,
+          {
+            filter: "drop-shadow(0 0 0px rgba(59,130,246,0))",
+            duration: 0.2,
+          },
+          2.0
+        );
+      }
+
+      // Phase 5: M fades out (2.0-2.4s)
       if (mPath) {
         tl.to(
           mPath,
@@ -80,11 +128,11 @@ export default function BrandRevealLoader() {
             duration: 0.4,
             ease: "power2.in",
           },
-          1.8
+          2.0
         );
       }
 
-      // Phase 5: Full name text appears (1.8-2.6s)
+      // Phase 6: Full name text appears (2.0-2.8s)
       tl.to(
         ".full-name",
         {
@@ -93,10 +141,10 @@ export default function BrandRevealLoader() {
           duration: 0.8,
           ease: "back.out",
         },
-        1.8
+        2.0
       );
 
-      // Phase 6: Content fades in (2.6-3.4s)
+      // Phase 7: Content fades in (2.8-3.6s)
       tl.to(
         contentRef.current,
         {
@@ -104,7 +152,7 @@ export default function BrandRevealLoader() {
           duration: 0.8,
           ease: "power2.out",
         },
-        2.6
+        2.8
       );
     });
 
@@ -121,7 +169,7 @@ export default function BrandRevealLoader() {
 
       {/* Main loader content */}
       <div className="relative z-10 flex flex-col items-center gap-8">
-        {/* SVG Container - Continuous Ribbon Drawing */}
+        {/* SVG Container - Continuous Ribbon Drawing with Running Cycle */}
         <div className="relative w-full max-w-3xl h-72 flex items-center justify-center">
           {/* Glow effect filter */}
           <div
@@ -146,6 +194,20 @@ export default function BrandRevealLoader() {
               strokeLinecap="round"
               strokeLinejoin="round"
               opacity="1"
+            />
+
+            {/* Running Cycle/Circle on the line */}
+            <circle
+              ref={circleRef}
+              className="running-cycle"
+              cx="50"
+              cy="100"
+              r="12"
+              fill="none"
+              stroke="url(#ribbonGradient)"
+              strokeWidth="3"
+              opacity="1"
+              filter="drop-shadow(0 0 8px rgba(59,130,246,0.8))"
             />
 
             {/* Phase 2: M path - ribbon morphs to M with wider stroke, centered */}
@@ -195,7 +257,7 @@ export default function BrandRevealLoader() {
           <div
             className="h-full bg-gradient-to-r from-blue-500 via-violet-500 to-pink-500"
             style={{
-              animation: "growWidth 3.4s ease-in-out forwards",
+              animation: "growWidth 3.6s ease-in-out forwards",
             }}
           />
         </div>
